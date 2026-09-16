@@ -1,6 +1,7 @@
 import unittest
 
 from bilan_extractor.discovery import normalized_text, page_anchor_matches
+from bilan_extractor.coordinates import normalize_ocr_bbox
 from bilan_extractor.fiscal_period import fiscal_end_from_text, header_date
 from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, parse_number
 from bilan_extractor.table_geometry import labelled_rows
@@ -52,3 +53,9 @@ class OcrParsingTest(unittest.TestCase):
         self.assertEqual(str(fiscal_end_from_text("Exercice clos le 31 août 2021")), "2021-08-31")
         self.assertEqual(str(fiscal_end_from_text("Exercice clos le 30/06/2020")), "2020-06-30")
         self.assertEqual(str(header_date("au 30/06/20")), "2020-06-30")
+
+    def test_ocr_pixels_are_normalized_using_pdf_points_and_300_dpi(self):
+        self.assertEqual(
+            normalize_ocr_bbox([250, 500, 500, 1000], page_width_pt=600, page_height_pt=800),
+            [0.1, 0.15, 0.2, 0.3],
+        )
