@@ -1,6 +1,7 @@
 import unittest
 
 from bilan_extractor.discovery import normalized_text, page_anchor_matches
+from bilan_extractor.fiscal_period import fiscal_end_from_text, header_date
 from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, parse_number
 from bilan_extractor.table_geometry import labelled_rows
 
@@ -46,3 +47,8 @@ class OcrParsingTest(unittest.TestCase):
         values = rows[0]["values"]
         self.assertEqual([value["column_index"] for value in values], [0, 1])
         self.assertEqual([value["column_header"] for value in values], ["au 30/06/20", "au 30/06/19"])
+
+    def test_fiscal_period_and_header_date_are_parsed(self):
+        self.assertEqual(str(fiscal_end_from_text("Exercice clos le 31 août 2021")), "2021-08-31")
+        self.assertEqual(str(fiscal_end_from_text("Exercice clos le 30/06/2020")), "2020-06-30")
+        self.assertEqual(str(header_date("au 30/06/20")), "2020-06-30")
