@@ -1,0 +1,133 @@
+"""Associate financial labels with values and column headers using OCR geometry."""
+
+from __future__ import annotations
+
+import re
+from collections.abc import Iterable
+
+from bilan_extractor.discovery import normalized_text
+from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, parse_number
+
+
+FIELD_LABELS: dict[str, tuple[str, ...]] = {
+    "PL_REVENUE_FRGAAP": ("chiffre d'affaires net", "chiffre d affaires net"),
+    "PL_EXT_SERVICES_COSTS_FRGAAP": ("autres achats et charges externes",),
+    "PL_FINANCIAL_RESULTS_FRGAAP": ("resultat financier",),
+    "PL_INCOME_TAX_FRGAAP": ("impots sur les benefices", "impot sur les benefices"),
+    "BS_TOTAL_ASSETS_FRGAAP": ("total general actif",),
+    "BS_TOTAL_EQUITY_FRGAAP": ("total des capitaux propres",),
+    "BS_CAPITAL_EQUITY_FRGAAP": ("capital social",),
+    "BS_CASH_CURRENT_ASSET_FRGAAP": ("disponibilites",),
+    "META_AVG_WORKFORCE_FRGAAP": ("effectif moyen",),
+}
+
+DATE_HEADER_RE = re.compile(r"\b(?:au\s+)?\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b|\bN(?:-1)?\b", re.IGNORECASE)
+
+
+def contains(box: Box, x: float, y: float) -> bool:
+    return box.x0 <= x <= box.x1 and box.y0 <= y <= box.y1
+
+
+def matching_table(label: OcrLine, table_boxes: Iterable[Box]) -> Box | None:
+    """Choose the detector-proposed table that contains the label, if any."""
+    for table in table_boxes:
+        if contains(table, label.box.x0, label.box.center_y):
+            return table
+    return None
+
+
+def numeric_lines(lines: Iterable[OcrLine], bounds: Box | None = None) -> list[OcrLine]:
+    output = []
+    for line in lines:
+        if not NUMBER_RE.search(line.text):
+            continue
+        if bounds and not contains(bounds, line.box.x1, line.box.center_y):
+            continue
+        output.append(line)
+    return output
+
+
+def cluster_right_edges(lines: Iterable[OcrLine], tolerance_px: float = 55.0) -> list[float]:
+    """Infer vertical numeric columns from repeated right-aligned OCR boxes."""
+    clusters: list[list[float]] = []
+    for edge in sorted(line.box.x1 for line in lines):
+        if not clusters or edge - (sum(clusters[-1]) / len(clusters[-1])) > tolerance_px:
+            clusters.append([edge])
+        else:
+            clusters[-1].append(edge)
+    return [sum(cluster) / len(cluster) for cluster in clusters]
+
+
+def row_values(label: OcrLine, lines: Iterable[OcrLine], bounds: Box | None = None) -> list[OcrLine]:
+    """Find numeric OCR lines aligned with a label's visual row."""
+    # Keep this deliberately conservative: a numeric line just below the label is often
+    # the next accounting row, not a shifted value from the current one.
+    tolerance = max(28.0, min(42.0, label.box.height * 0.75))
+    return [
+        line
+        for line in numeric_lines(lines, bounds)
+        if line.box.x0 > label.box.x1
+        and abs(line.box.center_y - label.box.center_y) <= tolerance
+    ]
+
+
+def headers_above(label: OcrLine, lines: Iterable[OcrLine], bounds: Box | None = None) -> list[OcrLine]:
+    """Find date/N headers above a row and within the same table region."""
+    minimum_y = bounds.y0 if bounds else max(0.0, label.box.y0 - 350.0)
+    return [
+        line
+        for line in lines
+        if minimum_y <= line.box.center_y < label.box.y0
+        and DATE_HEADER_RE.search(line.text)
+        and (bounds is None or contains(bounds, line.box.center_x, line.box.center_y))
+    ]
+
+
+def column_header(value: OcrLine, headers: Iterable[OcrLine]) -> str | None:
+    """Return the horizontally closest date/N header for a numeric cell."""
+    candidates = list(headers)
+    if not candidates:
+        return None
+    closest = min(candidates, key=lambda header: abs(header.box.center_x - value.box.center_x))
+    if abs(closest.box.center_x - value.box.center_x) > 180:
+        return None
+    return closest.text
+
+
+def labelled_rows(lines: list[OcrLine], table_boxes: list[Box]) -> list[dict]:
+    """Produce auditable label/value candidates. It intentionally does not choose N yet."""
+    output = []
+    for field_key, aliases in FIELD_LABELS.items():
+        for label in lines:
+            label_text = normalized_text(label.text)
+            matched_alias = next((alias for alias in aliases if normalized_text(alias) in label_text), None)
+            if not matched_alias:
+                continue
+            table = matching_table(label, table_boxes)
+            values = row_values(label, lines, table)
+            if not values:
+                continue
+            columns = cluster_right_edges(numeric_lines(lines, table))
+            headers = headers_above(label, lines, table)
+            output.append(
+                {
+                    "field_key": field_key,
+                    "matched_alias": matched_alias,
+                    "label_text": label.text,
+                    "label_bbox_px": [label.box.x0, label.box.y0, label.box.x1, label.box.y1],
+                    "table_bbox_px": None if table is None else [table.x0, table.y0, table.x1, table.y1],
+                    "columns_right_edge_px": columns,
+                    "values": [
+                        {
+                            "token": match.group(0),
+                            "parsed_value": parse_number(match.group(0)),
+                            "bbox_px": [value.box.x0, value.box.y0, value.box.x1, value.box.y1],
+                            "column_index": min(range(len(columns)), key=lambda i: abs(columns[i] - value.box.x1)),
+                            "column_header": column_header(value, headers),
+                        }
+                        for value in values
+                        for match in NUMBER_RE.finditer(value.text)
+                    ],
+                }
+            )
+    return output

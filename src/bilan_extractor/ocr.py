@@ -28,6 +28,10 @@ class Box:
         return (self.y0 + self.y1) / 2
 
     @property
+    def center_x(self) -> float:
+        return (self.x0 + self.x1) / 2
+
+    @property
     def height(self) -> float:
         return max(self.y1 - self.y0, 1.0)
 
@@ -58,6 +62,16 @@ def read_page(path: Path) -> tuple[int, list[OcrLine]]:
         if item.get("text", "").strip() and item.get("polygon")
     ]
     return raw["page"], lines
+
+
+def read_table_boxes(path: Path) -> list[Box]:
+    """Read table regions proposed by the shipped layout detector."""
+    raw = json.loads(path.read_text())
+    return [
+        Box(*item["bbox"])
+        for item in raw.get("layout", [])
+        if item.get("label") == "table" and item.get("bbox")
+    ]
 
 
 def parse_number(token: str) -> float:
