@@ -5,6 +5,7 @@ from bilan_extractor.coordinates import normalize_ocr_bbox
 from bilan_extractor.fiscal_period import fiscal_end_from_text, header_date
 from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, parse_number
 from bilan_extractor.table_geometry import labelled_rows
+from bilan_extractor.units import document_unit
 
 
 class OcrParsingTest(unittest.TestCase):
@@ -59,3 +60,10 @@ class OcrParsingTest(unittest.TestCase):
             normalize_ocr_bbox([250, 500, 500, 1000], page_width_pt=600, page_height_pt=800),
             [0.1, 0.15, 0.2, 0.3],
         )
+
+    def test_document_unit_prefers_explicit_thousands_over_euro_mentions(self):
+        lines = [
+            OcrLine("Montants exprimés en euros", Box(0, 0, 1, 1), 1),
+            OcrLine("Les comptes sont en milliers d'euros", Box(0, 2, 1, 3), 1),
+        ]
+        self.assertEqual(document_unit(lines)[0], "kEUR")
