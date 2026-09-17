@@ -94,26 +94,35 @@ def merge_numeric_fragments(lines: Iterable[OcrLine]) -> list[OcrLine]:
     that are on the same visual baseline and nearly touching are joined; the large gap
     between table columns is preserved.
     """
-    merged: list[OcrLine] = []
-    for fragment in sorted(lines, key=lambda line: (line.box.center_y, line.box.x0)):
-        if not merged:
-            merged.append(fragment)
-            continue
-        previous = merged[-1]
-        same_baseline = abs(fragment.box.center_y - previous.box.center_y) <= max(
-            previous.box.height, fragment.box.height
-        )
-        small_horizontal_gap = 0 <= fragment.box.x0 - previous.box.x1 <= 24
-        if same_baseline and small_horizontal_gap:
-            merged[-1] = OcrLine(
-                text=f"{previous.text} {fragment.text}",
-                box=Box(previous.box.x0, min(previous.box.y0, fragment.box.y0), fragment.box.x1, max(previous.box.y1, fragment.box.y1)),
-                score=min(score for score in (previous.score, fragment.score) if score is not None)
-                if previous.score is not None or fragment.score is not None
-                else None,
-            )
+    # Sorting by a raw y coordinate can put the right-most glyph first when a scanned
+    # baseline is slightly tilted (e.g. ``065`` one pixel above ``1 339``). Cluster a
+    # visual row first, then order that row left-to-right.
+    rows: list[list[OcrLine]] = []
+    for fragment in sorted(lines, key=lambda line: line.box.center_y):
+        if not rows or abs(fragment.box.center_y - rows[-1][0].box.center_y) > max(fragment.box.height, rows[-1][0].box.height):
+            rows.append([fragment])
         else:
-            merged.append(fragment)
+            rows[-1].append(fragment)
+    merged: list[OcrLine] = []
+    for row in rows:
+        row_merged: list[OcrLine] = []
+        for fragment in sorted(row, key=lambda line: line.box.x0):
+            if not row_merged:
+                row_merged.append(fragment)
+                continue
+            previous = row_merged[-1]
+            small_horizontal_gap = 0 <= fragment.box.x0 - previous.box.x1 <= 24
+            if small_horizontal_gap:
+                row_merged[-1] = OcrLine(
+                    text=f"{previous.text} {fragment.text}",
+                    box=Box(previous.box.x0, min(previous.box.y0, fragment.box.y0), fragment.box.x1, max(previous.box.y1, fragment.box.y1)),
+                    score=min(score for score in (previous.score, fragment.score) if score is not None)
+                    if previous.score is not None or fragment.score is not None
+                    else None,
+                )
+            else:
+                row_merged.append(fragment)
+        merged.extend(row_merged)
     return merged
 
 

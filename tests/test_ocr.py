@@ -101,6 +101,14 @@ class OcrParsingTest(unittest.TestCase):
         self.assertEqual([cell.text for cell in cells], ["367 608", "367 608"])
         self.assertEqual((cells[0].box.x0, cells[0].box.x1), (1426, 1593))
 
+    def test_tilted_fragment_baseline_still_merges_left_to_right(self):
+        fragments = [
+            OcrLine("1", Box(2123, 1501, 2160, 1543), 0.99),
+            OcrLine("339", Box(2166, 1496, 2258, 1548), 0.99),
+            OcrLine("065", Box(2267, 1498, 2355, 1544), 0.99),
+        ]
+        self.assertEqual(merge_numeric_fragments(fragments)[0].text, "1 339 065")
+
     def test_explicit_exercice_n_header_selects_current_value_without_a_date(self):
         row = {
             "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
