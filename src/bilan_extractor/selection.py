@@ -18,7 +18,6 @@ DIRECT_LABEL_RULES: dict[str, tuple[str, ...]] = {
     "PL_EXT_SERVICES_COSTS_FRGAAP": ("autres achats et charges externes",),
     "PL_DEPRECIATION_AMORTIZATION_FRGAAP": (
         "dotations aux amortissements",
-        "amortissements et provisions",
     ),
     "PL_FINANCIAL_RESULTS_FRGAAP": ("resultat financier",),
     "PL_INCOME_TAX_FRGAAP": ("impots sur les benefices",),
@@ -33,6 +32,29 @@ DIRECT_LABEL_RULES: dict[str, tuple[str, ...]] = {
 def is_direct_label(row: dict) -> bool:
     label = normalized_text(row["label_text"])
     allowed = DIRECT_LABEL_RULES.get(row["field_key"], ())
+    # A reconstructed label spanning many accounting rows is layout bleed, not a
+    # defensible field label.
+    if len(label) > 160:
+        return False
+    # A value-added annex reports external charges *excluding* rents; it is not the
+    # income-statement total requested by this field.
+    if row["field_key"] == "PL_EXT_SERVICES_COSTS_FRGAAP" and (
+        "exception des loyers" in label or "detail des postes" in label
+    ):
+        return False
+    if row["field_key"] == "PL_DEPRECIATION_AMORTIZATION_FRGAAP":
+        # Exclude provisions and tax-base disclosures: the target is the operating
+        # amortisation charge, not a combined/annex line that merely mentions it.
+        if "dotations aux provisions" in label or "fraction" in label:
+            return False
+    if row["field_key"] == "BS_CASH_CURRENT_ASSET_FRGAAP" and (
+        "emprunts" in label or "disponibilites et divers" in label
+    ):
+        return False
+    if row["field_key"] == "BS_CASH_CURRENT_ASSET_FRGAAP" and not label.startswith("disponibilites"):
+        return False
+    if row["field_key"] == "BS_TOTAL_ASSETS_FRGAAP" and "ecarts de conversion" in label:
+        return False
     return any(pattern in label for pattern in allowed)
 
 
