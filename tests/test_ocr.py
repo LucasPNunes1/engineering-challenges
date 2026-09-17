@@ -3,7 +3,7 @@ import unittest
 from bilan_extractor.discovery import normalized_text, page_anchor_matches
 from bilan_extractor.coordinates import normalize_ocr_bbox
 from bilan_extractor.fiscal_period import fiscal_end_from_text, header_date
-from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, parse_number
+from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, native_lines_from_words, parse_number
 from bilan_extractor.table_geometry import labelled_rows, merge_numeric_fragments
 from bilan_extractor.units import document_unit
 from bilan_extractor.selection import is_current_period_header, select_current_value
@@ -14,6 +14,15 @@ class OcrParsingTest(unittest.TestCase):
     def test_polygon_becomes_axis_aligned_box(self):
         box = box_from_polygon([[12, 25], [40, 20], [42, 55], [10, 52]])
         self.assertEqual((box.x0, box.y0, box.x1, box.y1), (10, 20, 42, 55))
+
+    def test_native_pdf_words_become_300_dpi_lines(self):
+        words = [
+            (72.0, 36.0, 100.0, 48.0, "Total", 0, 0, 0),
+            (103.0, 36.0, 144.0, 48.0, "actif", 0, 0, 1),
+        ]
+        lines = native_lines_from_words(words)
+        self.assertEqual(lines[0].text, "Total actif")
+        self.assertEqual((lines[0].box.x0, lines[0].box.y0, lines[0].box.x1, lines[0].box.y1), (300.0, 150.0, 600.0, 200.0))
 
     def test_parse_french_thousands_and_negative_numbers(self):
         self.assertEqual(parse_number("1 250 000"), 1250000)

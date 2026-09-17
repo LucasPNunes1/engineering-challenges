@@ -10,7 +10,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from bilan_extractor.ocr import read_page, read_table_boxes, read_table_label_lines
+from bilan_extractor.discovery import page_anchor_matches
+from bilan_extractor.ocr import NUMBER_RE, read_native_pdf_page, read_page, read_table_boxes, read_table_label_lines
 from bilan_extractor.table_geometry import labelled_rows
 from bilan_extractor.targets import TARGETS, document_id
 
@@ -24,11 +25,29 @@ def main() -> None:
     documents = []
     for siren, pdf_name in TARGETS:
         doc_id = document_id(pdf_name)
+        pdf_path = args.data_root / siren / "bilans" / "pdf" / pdf_name
         rows = []
         for path in sorted((args.data_root / siren / "bilans" / "ocr" / doc_id).glob("page_*.json")):
             page, lines = read_page(path)
-            for row in labelled_rows(lines, read_table_boxes(path), read_table_label_lines(path)):
+            table_boxes = read_table_boxes(path)
+            table_labels = read_table_label_lines(path)
+            page_rows = labelled_rows(lines, table_boxes, table_labels)
+            source = "shipped_ocr"
+            # Try embedded PDF text only where the normal pass found nothing on a page
+            # that still looks like a statement, or where OCR is empty. This keeps the
+            # fallback targeted rather than reprocessing every page in the corpus.
+            should_try_native = not page_rows and (not lines or bool(page_anchor_matches(lines)))
+            if should_try_native:
+                native_lines = read_native_pdf_page(pdf_path, page)
+                if native_lines:
+                    numeric_in_ocr = any(NUMBER_RE.search(line.text) for line in lines)
+                    analysis_lines = lines if numeric_in_ocr else native_lines
+                    native_label_hints = [line for line in native_lines if not NUMBER_RE.search(line.text)]
+                    page_rows = labelled_rows(analysis_lines, table_boxes, [*table_labels, *native_label_hints])
+                    source = "native_pdf_labels" if page_rows else source
+            for row in page_rows:
                 row["page"] = page
+                row["text_source"] = source
                 rows.append(row)
         documents.append({"siren": siren, "pdf": pdf_name, "document_id": doc_id, "rows": rows})
 
