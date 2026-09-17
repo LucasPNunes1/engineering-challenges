@@ -12,9 +12,13 @@ from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, parse_number
 FIELD_LABELS: dict[str, tuple[str, ...]] = {
     "PL_REVENUE_FRGAAP": ("chiffre d'affaires net", "chiffre d affaires net"),
     "PL_EXT_SERVICES_COSTS_FRGAAP": ("autres achats et charges externes",),
+    "PL_DEPRECIATION_AMORTIZATION_FRGAAP": (
+        "dotations aux amortissements",
+        "amortissements et provisions",
+    ),
     "PL_FINANCIAL_RESULTS_FRGAAP": ("resultat financier",),
     "PL_INCOME_TAX_FRGAAP": ("impots sur les benefices", "impot sur les benefices"),
-    "BS_TOTAL_ASSETS_FRGAAP": ("total general actif",),
+    "BS_TOTAL_ASSETS_FRGAAP": ("total general actif", "total general"),
     "BS_TOTAL_EQUITY_FRGAAP": ("total des capitaux propres",),
     "BS_CAPITAL_EQUITY_FRGAAP": ("capital social",),
     "BS_CASH_CURRENT_ASSET_FRGAAP": ("disponibilites",),
@@ -125,6 +129,14 @@ def column_header(value: OcrLine, headers: Iterable[OcrLine]) -> str | None:
     return closest.text
 
 
+def field_matches_page_context(field_key: str, label: OcrLine, page_lines: Iterable[OcrLine]) -> bool:
+    """Avoid confusing the active-side total with a similarly named passive-side total."""
+    if field_key != "BS_TOTAL_ASSETS_FRGAAP":
+        return True
+    page_text = " ".join(normalized_text(line.text) for line in page_lines)
+    return "bilan actif" in page_text or "actif" in normalized_text(label.text)
+
+
 def labelled_rows(lines: list[OcrLine], table_boxes: list[Box]) -> list[dict]:
     """Produce auditable label/value candidates. It intentionally does not choose N yet."""
     output = []
@@ -132,7 +144,7 @@ def labelled_rows(lines: list[OcrLine], table_boxes: list[Box]) -> list[dict]:
         for label in lines:
             label_text = normalized_text(label.text)
             matched_alias = next((alias for alias in aliases if normalized_text(alias) in label_text), None)
-            if not matched_alias:
+            if not matched_alias or not field_matches_page_context(field_key, label, lines):
                 continue
             table = matching_table(label, table_boxes)
             values = row_values(label, lines, table)

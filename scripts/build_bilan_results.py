@@ -37,8 +37,16 @@ def main() -> None:
             lines.extend(page_lines)
             pages_processed += 1
         unit, unit_evidence = document_unit(lines)
-        fields = []
+        # The same financial statement can appear twice in one filing (e.g. accounts and
+        # an annex). Keep one grounded result per field, preferring higher confidence and
+        # then the earliest source page, which is normally the primary statement.
+        chosen = {}
         for selection in document["selections"]:
+            previous = chosen.get(selection["field_key"])
+            if previous is None or (-selection["confidence"], selection["page"]) < (-previous["confidence"], previous["page"]):
+                chosen[selection["field_key"]] = selection
+        fields = []
+        for selection in sorted(chosen.values(), key=lambda item: item["field_key"]):
             field_unit = "count" if selection["field_key"] == "META_AVG_WORKFORCE_FRGAAP" else unit
             fields.append(
                 {

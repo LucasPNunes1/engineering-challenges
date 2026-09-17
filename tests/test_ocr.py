@@ -6,7 +6,7 @@ from bilan_extractor.fiscal_period import fiscal_end_from_text, header_date
 from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, parse_number
 from bilan_extractor.table_geometry import labelled_rows, merge_numeric_fragments
 from bilan_extractor.units import document_unit
-from bilan_extractor.selection import select_current_value
+from bilan_extractor.selection import is_current_period_header, select_current_value
 
 
 class OcrParsingTest(unittest.TestCase):
@@ -93,3 +93,7 @@ class OcrParsingTest(unittest.TestCase):
         selected = select_current_value(row, None)
         self.assertEqual(selected["value"], 367608)
         self.assertEqual(selected["confidence"], 0.92)
+
+    def test_current_period_header_accepts_net_n_but_not_n_minus_one(self):
+        self.assertTrue(is_current_period_header("Net (N)"))
+        self.assertFalse(is_current_period_header("Exercice (N-1)"))

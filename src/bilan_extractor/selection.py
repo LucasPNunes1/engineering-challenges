@@ -11,9 +11,13 @@ from bilan_extractor.fiscal_period import header_date
 # These patterns deliberately exclude related annex disclosures such as share counts.
 DIRECT_LABEL_RULES: dict[str, tuple[str, ...]] = {
     "PL_EXT_SERVICES_COSTS_FRGAAP": ("autres achats et charges externes",),
+    "PL_DEPRECIATION_AMORTIZATION_FRGAAP": (
+        "dotations aux amortissements",
+        "amortissements et provisions",
+    ),
     "PL_FINANCIAL_RESULTS_FRGAAP": ("resultat financier",),
     "PL_INCOME_TAX_FRGAAP": ("impots sur les benefices",),
-    "BS_TOTAL_ASSETS_FRGAAP": ("total general actif",),
+    "BS_TOTAL_ASSETS_FRGAAP": ("total general actif", "total general"),
     "BS_TOTAL_EQUITY_FRGAAP": ("total des capitaux propres",),
     "BS_CAPITAL_EQUITY_FRGAAP": ("capital social ou individuel",),
     "BS_CASH_CURRENT_ASSET_FRGAAP": ("disponibilites",),
@@ -25,6 +29,14 @@ def is_direct_label(row: dict) -> bool:
     label = normalized_text(row["label_text"])
     allowed = DIRECT_LABEL_RULES.get(row["field_key"], ())
     return any(pattern in label for pattern in allowed)
+
+
+def is_current_period_header(header: str | None) -> bool:
+    normalized = normalized_text(header or "")
+    return (
+        ("exercice n" in normalized or "net (n)" in normalized or "net n" in normalized)
+        and "n-1" not in normalized
+    )
 
 
 def select_current_value(row: dict, fiscal_end: date | None) -> dict | None:
@@ -40,8 +52,7 @@ def select_current_value(row: dict, fiscal_end: date | None) -> dict | None:
     if not matches:
         matches = [
             value for value in row["values"]
-            if "exercice n" in normalized_text(value.get("column_header") or "")
-            and "n-1" not in normalized_text(value.get("column_header") or "")
+            if is_current_period_header(value.get("column_header"))
         ]
         selection_reason = "direct label and explicit Exercice N header"
         confidence = 0.92
