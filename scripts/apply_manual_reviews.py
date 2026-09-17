@@ -24,12 +24,33 @@ def main() -> None:
     documents: dict[str, dict] = {}
     rejected: list[dict[str, str]] = []
 
+    # A queue intentionally omits fields that were already manually resolved. Preserve
+    # their previously validated selections when regenerating it; otherwise the second
+    # run would erase correct review decisions merely because they disappeared from the
+    # unresolved queue.
+    prior_by_field: dict[str, dict] = {}
+    if args.output.exists():
+        for document in json.loads(args.output.read_text()).get("documents", []):
+            for selection in document.get("selections", []):
+                prior_by_field[f"{document['document_id']}_{selection['field_key']}"] = {
+                    "document": document, "selection": selection
+                }
+
     for task_id, answer in answers.items():
         if answer.get("status") != "resolved":
             continue
         task = queue.get(task_id)
         if task is None:
-            rejected.append({"task_id": task_id, "reason": "task is no longer unresolved"})
+            prior = prior_by_field.get(task_id)
+            if prior is None:
+                rejected.append({"task_id": task_id, "reason": "task is no longer unresolved and has no prior validated selection"})
+                continue
+            source = prior["document"]
+            document = documents.setdefault(
+                source["document_id"],
+                {key: source[key] for key in ("siren", "pdf", "document_id", "fiscal_year_end")} | {"selections": []},
+            )
+            document["selections"].append(prior["selection"])
             continue
         evidence_id = answer.get("evidence_id")
         evidence = next((item for item in task["evidence_values"] if item["evidence_id"] == evidence_id), None)

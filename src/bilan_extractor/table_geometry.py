@@ -111,7 +111,10 @@ def merge_numeric_fragments(lines: Iterable[OcrLine]) -> list[OcrLine]:
                 row_merged.append(fragment)
                 continue
             previous = row_merged[-1]
-            small_horizontal_gap = 0 <= fragment.box.x0 - previous.box.x1 <= 24
+            # OCR boxes for adjacent characters can overlap a few pixels (notably
+            # parenthesised negatives split as ``(13`` and ``520)``). Treat that as a
+            # single cell too; separate table columns remain far apart.
+            small_horizontal_gap = -15 <= fragment.box.x0 - previous.box.x1 <= 24
             if small_horizontal_gap:
                 row_merged[-1] = OcrLine(
                     text=f"{previous.text} {fragment.text}",

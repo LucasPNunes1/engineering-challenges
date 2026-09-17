@@ -109,6 +109,15 @@ class OcrParsingTest(unittest.TestCase):
         ]
         self.assertEqual(merge_numeric_fragments(fragments)[0].text, "1 339 065")
 
+    def test_overlapping_parenthesis_fragments_become_one_negative_cell(self):
+        fragments = [
+            OcrLine("(13", Box(1791, 3293, 1884, 3339), 0.99),
+            OcrLine("520)", Box(1879, 3295, 1980, 3339), 0.99),
+        ]
+        cell = merge_numeric_fragments(fragments)[0]
+        self.assertEqual(cell.text, "(13 520)")
+        self.assertEqual(parse_number(NUMBER_RE.search(cell.text).group(0)), -13520)
+
     def test_explicit_exercice_n_header_selects_current_value_without_a_date(self):
         row = {
             "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
