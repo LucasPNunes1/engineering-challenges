@@ -19,6 +19,7 @@ class OcrParsingTest(unittest.TestCase):
         self.assertEqual(parse_number("1 250 000"), 1250000)
         self.assertEqual(parse_number("1.250.000"), 1250000)
         self.assertEqual(parse_number("-97 957"), -97957)
+        self.assertEqual(parse_number("227)"), -227)
         self.assertEqual(parse_number("12,5"), 12.5)
 
     def test_number_regex_does_not_split_grouped_number(self):

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-NUMBER_RE = re.compile(r"(?<![\w/])[-−]?\d{1,3}(?:[ .\u00a0]\d{3})+(?![\w/])|(?<![\w/])[-−]?\d+(?:[,.]\d+)?(?![\w/])")
+NUMBER_RE = re.compile(r"(?<![\w/])[-−]?\d{1,3}(?:[ .\u00a0]\d{3})+\)?(?![\w/])|(?<![\w/])[-−]?\d+(?:[,.]\d+)?\)?(?![\w/])")
 
 
 @dataclass(frozen=True)
@@ -76,12 +76,14 @@ def read_table_boxes(path: Path) -> list[Box]:
 
 def parse_number(token: str) -> float:
     """Parse common French OCR number formatting without applying a currency unit."""
-    normalized = token.replace("−", "-").replace("\u00a0", " ").replace(" ", "")
+    negative_parentheses = token.strip().endswith(")")
+    normalized = token.replace("−", "-").replace("\u00a0", " ").replace(" ", "").rstrip(")")
     if re.fullmatch(r"-?\d{1,3}(?:\.\d{3})+", normalized):
         normalized = normalized.replace(".", "")
     if "," in normalized and "." not in normalized:
         normalized = normalized.replace(",", ".")
-    return float(normalized)
+    value = float(normalized)
+    return -value if negative_parentheses else value
 
 
 def nearby_context(number_line: OcrLine, page_lines: list[OcrLine]) -> list[str]:
