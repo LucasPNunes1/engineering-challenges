@@ -39,9 +39,9 @@ def is_current_period_header(header: str | None) -> bool:
     )
 
 
-def select_current_value(row: dict, fiscal_end: date | None) -> dict | None:
+def select_current_value(row: dict, fiscal_end: date | None, *, require_direct_label: bool = True) -> dict | None:
     """Choose a current-period value from an exact date or an explicit ``Exercice N`` header."""
-    if not is_direct_label(row):
+    if require_direct_label and not is_direct_label(row):
         return None
     matches = [
         value for value in row["values"]
@@ -56,6 +56,13 @@ def select_current_value(row: dict, fiscal_end: date | None) -> dict | None:
         ]
         selection_reason = "direct label and explicit Exercice N header"
         confidence = 0.92
+    if not matches and len(row["values"]) == 1:
+        # Some liasse pages expose only one reported-period value per accounting row;
+        # accepting it is useful, but it is deliberately lower confidence than a dated
+        # or N-labelled column and must be visually reviewed.
+        matches = row["values"]
+        selection_reason = "single numeric cell on a recognized accounting row; review required"
+        confidence = 0.65
     if len(matches) != 1:
         return None
     value = matches[0]

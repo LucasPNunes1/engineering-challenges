@@ -23,6 +23,16 @@ FIELD_LABELS: dict[str, tuple[str, ...]] = {
     "BS_CAPITAL_EQUITY_FRGAAP": ("capital social",),
     "BS_CASH_CURRENT_ASSET_FRGAAP": ("disponibilites",),
     "META_AVG_WORKFORCE_FRGAAP": ("effectif moyen",),
+    # Components are intentionally kept separate until derived-field rules prove that
+    # all required parts came from the same current-period statement.
+    "COMP_REVENUE_GOODS": ("ventes de marchandises",),
+    "COMP_REVENUE_PRODUCTION": ("production vendue",),
+    "COMP_PERSONNEL_SALARIES": ("salaires et traitements", "salaires et tratements"),
+    "COMP_PERSONNEL_SOCIAL": ("charges sociales", "charges socales"),
+    "COMP_COGS_PURCHASE_GOODS": ("achats de marchandises",),
+    "COMP_COGS_PURCHASE_MATERIALS": ("achats de matieres", "achats de m p"),
+    "COMP_COGS_STOCK_VARIATION": ("variation de stock", "variation des stocks"),
+    "COMP_COGS_STORED_PRODUCTION": ("production stockee",),
 }
 
 DATE_HEADER_RE = re.compile(r"\b(?:au\s+)?\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b|\bN(?:-1)?\b", re.IGNORECASE)

@@ -7,6 +7,7 @@ from bilan_extractor.ocr import Box, NUMBER_RE, OcrLine, box_from_polygon, parse
 from bilan_extractor.table_geometry import labelled_rows, merge_numeric_fragments
 from bilan_extractor.units import document_unit
 from bilan_extractor.selection import is_current_period_header, select_current_value
+from bilan_extractor.derived import derive_fields
 
 
 class OcrParsingTest(unittest.TestCase):
@@ -94,6 +95,27 @@ class OcrParsingTest(unittest.TestCase):
         self.assertEqual(selected["value"], 367608)
         self.assertEqual(selected["confidence"], 0.92)
 
+    def test_single_unheaded_cell_is_a_low_confidence_review_candidate(self):
+        row = {
+            "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+            "label_text": "Disponibilités",
+            "page": 2,
+            "values": [{"parsed_value": 367608, "bbox_px": [1, 2, 3, 4], "column_header": None}],
+        }
+        selected = select_current_value(row, None)
+        self.assertEqual(selected["confidence"], 0.65)
+        self.assertIn("review required", selected["selection_reason"])
+
     def test_current_period_header_accepts_net_n_but_not_n_minus_one(self):
         self.assertTrue(is_current_period_header("Net (N)"))
         self.assertFalse(is_current_period_header("Exercice (N-1)"))
+
+    def test_personnel_cost_is_derived_only_when_both_components_share_a_page(self):
+        selections = [
+            {"field_key": "COMP_PERSONNEL_SALARIES", "value": 100, "page": 4, "bbox_px": [1, 2, 3, 4], "confidence": 0.95},
+            {"field_key": "COMP_PERSONNEL_SOCIAL", "value": 40, "page": 4, "bbox_px": [1, 6, 3, 8], "confidence": 0.92},
+        ]
+        derived = derive_fields(selections)
+        personnel = next(item for item in derived if item["field_key"] == "PL_PERSONNEL_COSTS_FRGAAP")
+        self.assertEqual(personnel["value"], 140)
+        self.assertEqual(personnel["bbox_px"], [1, 2, 3, 8])
