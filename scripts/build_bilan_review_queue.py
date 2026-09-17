@@ -99,6 +99,7 @@ def main() -> None:
     parser.add_argument("--direct", type=Path, default=Path("artifacts/direct_selections.json"))
     parser.add_argument("--derived", type=Path, default=Path("artifacts/derived_selections.json"))
     parser.add_argument("--manual", type=Path, default=Path("artifacts/manual_selections.json"))
+    parser.add_argument("--second-ocr", type=Path, default=Path("review/french_ocr_selections.json"))
     parser.add_argument("--discovery", type=Path, default=Path("artifacts/page_discovery.json"))
     parser.add_argument("--fields", type=Path, default=Path("challenges/bilan/schema/financial_fields.json"))
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/review_queue"))
@@ -115,6 +116,12 @@ def main() -> None:
             item["document_id"]: item
             for item in json.loads(args.manual.read_text())["documents"]
         }
+    second_ocr = {}
+    if args.second_ocr.exists():
+        second_ocr = {
+            item["document_id"]: item
+            for item in json.loads(args.second_ocr.read_text())["documents"]
+        }
     discovery = {item["document_id"]: item for item in json.loads(args.discovery.read_text())["documents"]}
 
     tasks: list[dict] = []
@@ -124,6 +131,7 @@ def main() -> None:
         fiscal_end = direct[doc_id].get("fiscal_year_end")
         direct_selected = {item["field_key"] for item in direct[doc_id]["selections"]}
         direct_selected.update(item["field_key"] for item in manual.get(doc_id, {}).get("selections", []))
+        direct_selected.update(item["field_key"] for item in second_ocr.get(doc_id, {}).get("selections", []))
         derived_selected = {item["field_key"] for item in derived[doc_id]["selections"]}
         page_matches = discovery[doc_id]["pages"]
 

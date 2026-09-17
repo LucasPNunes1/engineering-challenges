@@ -159,12 +159,15 @@ PYTHONPATH=src .venv/bin/python scripts/select_direct_bilan_values.py
 PYTHONPATH=src .venv/bin/python scripts/derive_bilan_fields.py
 .venv/bin/python scripts/build_bilan_review_queue.py
 PYTHONPATH=src .venv/bin/python scripts/apply_manual_reviews.py
+.venv/bin/python scripts/run_french_ocr_spike.py
 .venv/bin/python scripts/normalize_bilan_bboxes.py
-PYTHONPATH=src .venv/bin/python scripts/build_bilan_results.py --seconds-per-page 0.122
+PYTHONPATH=src .venv/bin/python scripts/build_bilan_results.py --seconds-per-page 0.179
 
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
+Before the optional French OCR pass, download the official `fra.traineddata` model into
+`tools/tessdata/fra.traineddata` and ensure the `tesseract` binary is on `PATH`.
 `review/manual_review_answers.json` is a bounded, versioned review layer. Each answer
 can select only an `evidence_id` emitted by the local queue, so it cannot introduce a
 new value or a fabricated bbox. Optional review images can be regenerated with
@@ -174,8 +177,10 @@ new value or a fabricated bbox. Optional review images can be regenerated with
 
 The pipeline uses the supplied OCR, table geometry, tolerant French-label matching,
 fiscal-period selection, numeric-fragment reconstruction, and grounded formulas. It
-processes all 415 supplied OCR pages in 50.768 seconds serially: **0.122 seconds/page**.
-It makes no paid model request, so incremental extraction cost is **€0.00/page**.
+processes all 415 supplied OCR pages in 50.768 seconds serially, then runs French
+Tesseract over 12 localized pages in 23.704 seconds. The combined measurement is
+**0.179 seconds/page**. It makes no paid model request, so incremental extraction cost
+is **€0.00/page**.
 
 The trade-off is coverage for provenance. A cropped visual-review queue is used only
 when the target label and finite OCR candidates already exist. The final unresolved

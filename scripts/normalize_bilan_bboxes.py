@@ -11,6 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from bilan_extractor.coordinates import normalize_ocr_bbox
+from bilan_extractor.ocr import OCR_DPI
 
 
 def main() -> None:
@@ -19,6 +20,7 @@ def main() -> None:
     parser.add_argument("--input", type=Path, default=Path("artifacts/direct_selections.json"))
     parser.add_argument("--derived", type=Path, default=Path("artifacts/derived_selections.json"))
     parser.add_argument("--manual", type=Path, default=Path("artifacts/manual_selections.json"))
+    parser.add_argument("--second-ocr", type=Path, default=Path("review/french_ocr_selections.json"))
     parser.add_argument("--output", type=Path, default=Path("artifacts/normalized_selections.json"))
     args = parser.parse_args()
 
@@ -42,14 +44,23 @@ def main() -> None:
         }
         for document in payload["documents"]:
             document["selections"].extend(manual_by_id.get(document["document_id"], []))
+    if args.second_ocr.exists():
+        second_ocr_by_id = {
+            document["document_id"]: document["selections"]
+            for document in json.loads(args.second_ocr.read_text())["documents"]
+        }
+        for document in payload["documents"]:
+            document["selections"].extend(second_ocr_by_id.get(document["document_id"], []))
     for document in payload["documents"]:
         pdf = args.data_root / document["siren"] / "bilans" / "pdf" / document["pdf"]
         source_pdf = pymupdf.open(pdf)
         try:
             for selection in document["selections"]:
                 page = source_pdf[selection["page"] - 1]
+                source_dpi = selection.pop("bbox_dpi", OCR_DPI)
+                bbox_px = [value * OCR_DPI / source_dpi for value in selection.pop("bbox_px")]
                 selection["bbox"] = normalize_ocr_bbox(
-                    selection.pop("bbox_px"), page.rect.width, page.rect.height
+                    bbox_px, page.rect.width, page.rect.height
                 )
         finally:
             source_pdf.close()

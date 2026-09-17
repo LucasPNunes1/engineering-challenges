@@ -30,6 +30,7 @@ def main() -> None:
     documents = []
     pages_processed = 0
     manual_fields = 0
+    second_ocr_fields = 0
     for document in normalized["documents"]:
         ocr_dir = args.data_root / document["siren"] / "bilans" / "ocr" / document["document_id"]
         lines = []
@@ -50,6 +51,8 @@ def main() -> None:
         for selection in sorted(chosen.values(), key=lambda item: item["field_key"]):
             if selection.get("selection_reason", "").startswith("local visual review:"):
                 manual_fields += 1
+            if selection.get("selection_reason", "").startswith("French Tesseract TSV"):
+                second_ocr_fields += 1
             field_unit = "count" if selection["field_key"] == "META_AVG_WORKFORCE_FRGAAP" else unit
             fields.append(
                 {
@@ -82,8 +85,9 @@ def main() -> None:
             "model": "provided OCR + deterministic geometry rules",
             "notes": (
                 "Supplied OCR with deterministic geometry, label, period, and component rules; "
-                f"{manual_fields} fields use bounded local visual review restricted to existing OCR evidence IDs. "
-                "No paid API/VLM response was used. Cost is €0/page because the supplied OCR is local."
+                f"{manual_fields} fields use bounded local visual review restricted to existing OCR evidence IDs; "
+                f"{second_ocr_fields} use a French Tesseract TSV pass on localized pages. "
+                "No paid API/VLM response was used. Cost is €0/page because both OCR paths run locally."
             ),
         },
     }
