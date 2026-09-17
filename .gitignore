@@ -5,3 +5,5 @@ artifacts/
 .venv/
 .env
 tools/tessdata/
+# Personal presentation aid; deliberately not part of the submission.
+notes/video-script.md

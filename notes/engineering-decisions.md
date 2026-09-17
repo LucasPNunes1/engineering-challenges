@@ -163,8 +163,15 @@ rendered review packet for field-by-field inspection.
 
 ### Remaining scope
 
-The unresolved queue contains 93 pairs: 57 have no usable label/value in the supplied
-OCR and 27 lack the component rows required for a derivation. Only 9 remain as a
-localized formula/column question. They are intentionally not guessed. A next iteration
-would use a French-language second OCR or a tightly scoped vision fallback only on those
-pages, then subject any response to this same evidence and bbox validation protocol.
+The final output omits 106 pairs. Of these, 57 have no usable target label/value in the
+supplied OCR, 27 lack component rows required for a derivation, and 9 are localized
+formula/column questions. The remaining 13 were candidates rejected during the final
+precision gate because visual audit exposed OCR digit loss or label bleed. They are
+intentionally not guessed.
+
+The 9 localized questions, and a subset of the 57 OCR gaps where the page is already
+known, are the right scope for a second French OCR or tightly bounded vision fallback. A
+ChatGPT UI proof of concept used localized crops plus a closed list of OCR evidence IDs;
+it established the interaction design but was not evaluated across the unresolved set and
+did not feed `results.json`. Any future model response must pass the same evidence and
+bbox validation protocol before it can be emitted.

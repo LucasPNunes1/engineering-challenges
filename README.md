@@ -20,20 +20,15 @@ external request.
 ```bash
 python -m venv .venv
 .venv/bin/pip install -e . pytest jsonschema
-
-PYTHONPATH=src .venv/bin/python scripts/inspect_bilan_rows.py
-PYTHONPATH=src .venv/bin/python scripts/select_direct_bilan_values.py
-PYTHONPATH=src .venv/bin/python scripts/derive_bilan_fields.py
-.venv/bin/python scripts/build_bilan_review_queue.py
-PYTHONPATH=src .venv/bin/python scripts/apply_manual_reviews.py
-.venv/bin/python scripts/run_french_ocr_spike.py
-.venv/bin/python scripts/normalize_bilan_bboxes.py
-PYTHONPATH=src .venv/bin/python scripts/build_bilan_results.py --seconds-per-page 0.179
-
-PYTHONPATH=src .venv/bin/python -m pytest -q
+.venv/bin/python scripts/run_bilan_pipeline.py
 ```
 
-The localized French OCR spike is optional: to run it, download the official
+The runner executes the deterministic extraction, applies the versioned local review
+decisions, runs the localized French OCR pass, normalizes bboxes, and writes
+`results.json`. Use `--skip-french-ocr` if the optional local model is unavailable.
+Run tests separately with `PYTHONPATH=src .venv/bin/python -m pytest -q`.
+
+For the localized French OCR pass, download the official
 `fra.traineddata` model into `tools/tessdata/fra.traineddata` and ensure the `tesseract`
 binary is on `PATH`. `review/manual_review_answers.json` is a bounded, versioned review
 layer: every selection refers to an evidence ID emitted by the local queue, so it cannot
@@ -44,9 +39,9 @@ packet with `.venv/bin/python scripts/generate_bilan_review.py`.
 
 The pipeline uses supplied OCR, table geometry, tolerant French-label matching,
 fiscal-period selection, numeric-fragment reconstruction, and grounded formulas. It
-processes 415 supplied OCR pages in 50.768 seconds, then runs French Tesseract over 12
-localized pages in 23.704 seconds: **0.179 seconds/page** overall. It makes no paid model
-request, so incremental extraction cost is **€0.00/page**.
+processes 415 supplied OCR pages in **50.8 seconds**, then runs French Tesseract over 12
+localized pages in **23.7 seconds**: **0.179 seconds/page** overall. It makes no paid
+model request, so incremental extraction cost is **€0.00/page**.
 
 I chose provenance over apparent coverage. A cropped visual-review queue is used only
 when the target label and finite OCR candidates already exist. The audit found that a
@@ -55,6 +50,27 @@ read `300` instead of `7,300`) and combine adjacent labels. Such selections are 
 rather than silently retained. With another week, I would benchmark a second French OCR
 or a vision fallback only on localized pages, then require it to return existing OCR
 evidence or undergo separate bbox validation.
+
+The French-OCR experiment was a real local second-OCR attempt, not merely planned: it
+ran on 12 localized unresolved pages and contributed three final fields. Earlier,
+less-strict intermediate builds reached 80–90 fields; after visual auditing, the final
+result is **74**, because unsafe candidates were removed. The lower number is intentional.
+
+### What remains unresolved
+
+There are 106 unreported document-field pairs. The evidence gap is classified as follows:
+
+| Count | What is missing | Appropriate next step |
+| ---: | --- | --- |
+| 57 | A usable target label and/or legible numeric value in the supplied OCR | Re-read only the localized page with a stronger French OCR or vision model. |
+| 27 | One or more printed component rows needed by a derived field | Recover all components, then validate the formula and source boxes. |
+| 9 | A localized table crop but an unresolved current-period column or formula choice | Use a bounded VLM/human review that may choose only existing evidence IDs. |
+| 13 | A previously plausible candidate rejected by the final precision gate (digit loss or label bleed) | Re-read from the image; do not reuse the supplied OCR value without independent confirmation. |
+
+The 9 localized questions and a subset of the 57 OCR gaps are the most likely VLM wins:
+the relevant page is already known. That is not a claim that a model would be correct.
+Before using it at scale, it needs a representative, blinded evaluation and an acceptance
+rule that preserves page/bbox provenance and rejects unsupported answers.
 
 ## How I used AI
 
@@ -66,7 +82,11 @@ explore, challenge, and extend them in code. I checked retained values through r
 OCR evidence and bbox review. That audit also found cases where an assistant-generated
 deterministic proposal was wrong despite a plausible label match, so the pipeline was
 tightened. No AI/VLM API response contributed to `results.json`: the attempted API
-integration had no available credit.
+integration had no available credit. I also made a proof of concept through the ChatGPT
+interface rather than an API: it received localized page crops plus a finite list of OCR
+evidence IDs and was asked to select an ID or abstain. This established the bounded-review
+interaction, but it was not validated over the full unresolved set and did not generate
+the submitted results.
 
 ---
 
