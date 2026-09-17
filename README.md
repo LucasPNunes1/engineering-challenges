@@ -10,7 +10,8 @@ where the supplied OCR does not provide enough evidence, rather than emitting ze
 guess; coverage is therefore not presented as an accuracy claim.
 
 Detailed engineering rationale is in [notes/engineering-decisions.md](notes/engineering-decisions.md).
-The three-minute walkthrough outline is in [notes/video-script.md](notes/video-script.md).
+The committed visual evidence packet is [artifacts/review/index.html](artifacts/review/index.html);
+open it locally in a browser to inspect every retained source page and its selected values.
 
 ## Run
 
