@@ -1,0 +1,1299 @@
+{
+  "documents": [
+    {
+      "pdf": "data/820561470/bilans/pdf/bilan_2023-06-05_6493e4372f502414800f8164.pdf",
+      "siren": "820561470",
+      "fiscal_year_end": "2021-08-31",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 10000.0,
+          "unit": "EUR",
+          "page": 7,
+          "bbox": [
+            0.7728745098422795,
+            0.16003363091820658,
+            0.8182186403306688,
+            0.17236546937775316
+          ],
+          "snippet": "Capital social ou individuel",
+          "confidence": 0.95,
+          "column_header": "31/08/2021.",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 962 euros."
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 307199.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.4886639776739818,
+            0.732062774007628,
+            0.5404858410892839,
+            0.7441143434112758
+          ],
+          "snippet": "DISPONIBILITES",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 962 euros."
+        },
+        {
+          "field_key": "BS_TOTAL_EQUITY_FRGAAP",
+          "value": 322009.0,
+          "unit": "EUR",
+          "page": 7,
+          "bbox": [
+            0.7615384772201821,
+            0.3873318352521217,
+            0.8145749155592803,
+            0.3993834046557695
+          ],
+          "snippet": "Total des capitaux propres",
+          "confidence": 0.95,
+          "column_header": "31/08/2021.",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 962 euros."
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 44695.0,
+          "unit": "EUR",
+          "page": 13,
+          "bbox": [
+            0.4969648099953409,
+            0.7044818027540048,
+            0.5410765072994875,
+            0.715406172657546
+          ],
+          "snippet": "Impôts sur les bénéfices",
+          "confidence": 0.95,
+          "column_header": "31/08/2021",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 962 euros."
+        }
+      ]
+    },
+    {
+      "pdf": "data/820561470/bilans/pdf/bilan_2023-06-13_6543d3fd08093cdace058668.pdf",
+      "siren": "820561470",
+      "fiscal_year_end": "2022-08-31",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 150000.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.7543504933479767,
+            0.15969688555965236,
+            0.8069607745364085,
+            0.1717653672451797
+          ],
+          "snippet": "Capital social ou individuel",
+          "confidence": 0.95,
+          "column_header": "31/08/2022",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 554 euros."
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 175359.0,
+          "unit": "EUR",
+          "page": 3,
+          "bbox": [
+            0.48239580905085205,
+            0.7329784274183923,
+            0.5341967012979234,
+            0.7450266202238169
+          ],
+          "snippet": "DISPONIBILITES",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 554 euros."
+        },
+        {
+          "field_key": "BS_TOTAL_EQUITY_FRGAAP",
+          "value": 438221.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.751517632053215,
+            0.3861914139368746,
+            0.8041279132416468,
+            0.3985405579871817
+          ],
+          "snippet": "Total des capitaux propres",
+          "confidence": 0.95,
+          "column_header": "31/08/2022",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 554 euros."
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 17373.0,
+          "unit": "EUR",
+          "page": 10,
+          "bbox": [
+            0.6329421521439031,
+            0.31540616695865187,
+            0.6782679328600906,
+            0.3277310971062368
+          ],
+          "snippet": "Impôts sur les bénéfices",
+          "confidence": 0.95,
+          "column_header": "31/08/2022",
+          "unit_evidence": "Le bilan de l'exercice présente un total de 638 554 euros."
+        }
+      ]
+    },
+    {
+      "pdf": "data/820561470/bilans/pdf/bilan_2024-01-15_67458f18cea78a70070fa226.pdf",
+      "siren": "820561470",
+      "fiscal_year_end": "2023-08-31",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 150000.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.7576826196473552,
+            0.14263345195729535,
+            0.8100755667506297,
+            0.15345195729537364
+          ],
+          "snippet": "Capital social ou individuel",
+          "confidence": 0.95,
+          "column_header": "31/08/2023",
+          "unit_evidence": "SARL au capital de 150 000 euros"
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 229016.0,
+          "unit": "EUR",
+          "page": 1,
+          "bbox": [
+            0.7572795969773299,
+            0.7399288256227757,
+            0.8112846347607053,
+            0.7510320284697508
+          ],
+          "snippet": "DISPONIBILITES Charges constatées d'avance",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "SARL au capital de 150 000 euros"
+        },
+        {
+          "field_key": "BS_TOTAL_EQUITY_FRGAAP",
+          "value": 460510.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.7572795969773299,
+            0.3783629893238434,
+            0.8092695214105794,
+            0.38918149466192165
+          ],
+          "snippet": "Total des capitaux propres",
+          "confidence": 0.95,
+          "column_header": "31/08/2023",
+          "unit_evidence": "SARL au capital de 150 000 euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 1072.0,
+          "unit": "EUR",
+          "page": 10,
+          "bbox": [
+            0.6404030226700251,
+            0.3051957295373665,
+            0.6798992443324937,
+            0.31800711743772236
+          ],
+          "snippet": "Impôts sur les bénéfices",
+          "confidence": 0.95,
+          "column_header": "31/08/2023",
+          "unit_evidence": "SARL au capital de 150 000 euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/328024377/bilans/pdf/bilan_2020-12-24_63e8ebbb54febda17c19ee7c.pdf",
+      "siren": "328024377",
+      "fiscal_year_end": "2020-06-30",
+      "fields": [
+        {
+          "field_key": "BS_TOTAL_ASSETS_FRGAAP",
+          "value": 3500529.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.7397647058823529,
+            0.6920665083135391,
+            0.7897815126050419,
+            0.7009026128266033
+          ],
+          "snippet": "TOTAL GENERAL",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2020, dont le tota)est de 3 500 529 euros"
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": 357.0,
+          "unit": "EUR",
+          "page": 16,
+          "bbox": [
+            0.7135462184873949,
+            0.7302612826603325,
+            0.7349243697478991,
+            0.7399524940617577
+          ],
+          "snippet": "Résultat financier",
+          "confidence": 0.95,
+          "column_header": "30/06/2020",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2020, dont le tota)est de 3 500 529 euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 31566.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.5086386554621848,
+            0.682375296912114,
+            0.5425210084033613,
+            0.6909263657957244
+          ],
+          "snippet": "Impôts sur les bénéfices",
+          "confidence": 0.85,
+          "column_header": "du 01/07/19",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2020, dont le tota)est de 3 500 529 euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/328024377/bilans/pdf/bilan_2021-12-17_63e8ebbb54febda17c19ee7d.pdf",
+      "siren": "328024377",
+      "fiscal_year_end": "2021-06-30",
+      "fields": [
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 2151560.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.8633238696896577,
+            0.7919026115987966,
+            0.951475908842981,
+            0.8052095199810431
+          ],
+          "snippet": "Disponibilités CF",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos le,",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        },
+        {
+          "field_key": "BS_TOTAL_ASSETS_FRGAAP",
+          "value": 4823304.0,
+          "unit": "EUR",
+          "page": 23,
+          "bbox": [
+            0.7452563829830923,
+            0.6937676953861616,
+            0.8126766516494933,
+            0.7039659955225036
+          ],
+          "snippet": "TOTAL GENERAL",
+          "confidence": 0.95,
+          "column_header": "30/06/2021",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        },
+        {
+          "field_key": "PL_DEPRECIATION_AMORTIZATION_FRGAAP",
+          "value": 149350.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8778810871645184,
+            0.5045274636263458,
+            0.95228464314714,
+            0.5175438760362235
+          ],
+          "snippet": "- dotations aux amortissements*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        },
+        {
+          "field_key": "PL_EXT_SERVICES_COSTS_FRGAAP",
+          "value": 1339065.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8584714638647041,
+            0.42331636880819595,
+            0.95228464314714,
+            0.43803057414110114
+          ],
+          "snippet": "Autres achats et charges externes (3) (6 bis)*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": 18831.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8875858988144256,
+            0.9272779014601993,
+            0.9534977446033784,
+            0.9419921067931045
+          ],
+          "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 164610.0,
+          "unit": "EUR",
+          "page": 5,
+          "bbox": [
+            0.8811160243811541,
+            0.3217317589137158,
+            0.9563283146679347,
+            0.33503113681076474
+          ],
+          "snippet": "Impôts sur les bénéfices *",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 4982524.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8584714638647041,
+            0.20373515076330287,
+            0.951475908842981,
+            0.21675156317318056
+          ],
+          "snippet": "Chiffres d'affaires nets *",
+          "confidence": 0.83,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2021, dont le total est de 4 823 304 euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/328024377/bilans/pdf/bilan_2022-12-13_63e8ebbb54febda17c19ee7e.pdf",
+      "siren": "328024377",
+      "fiscal_year_end": "2022-06-30",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 152500.0,
+          "unit": "EUR",
+          "page": 3,
+          "bbox": [
+            0.8716638655462183,
+            0.13425178147268407,
+            0.9406386554621847,
+            0.1479334916864608
+          ],
+          "snippet": "Capital social ou individuel (1)* (Dont versé :",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 1515838.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.8523025210084032,
+            0.7832779097387174,
+            0.9378151260504201,
+            0.7966745843230404
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.95,
+          "column_header": "30/06/2022",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 6614486.0,
+          "unit": "EUR",
+          "page": 26,
+          "bbox": [
+            0.48820801656967294,
+            0.24857469147674677,
+            0.5402136599532301,
+            0.3802736679242892
+          ],
+          "snippet": "Achats + variation de stock + production stockée",
+          "confidence": 0.9025,
+          "column_header": "au 30/06/22",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_DEPRECIATION_AMORTIZATION_FRGAAP",
+          "value": 321856.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8704537815126049,
+            0.5030878859857482,
+            0.944672268907563,
+            0.5167695961995249
+          ],
+          "snippet": "- dotations aux amortissements*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_EXT_SERVICES_COSTS_FRGAAP",
+          "value": 1432377.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8490756302521008,
+            0.4218527315914489,
+            0.9438655462184873,
+            0.436104513064133
+          ],
+          "snippet": "Autres achats et charges externes (3) (6 bis)*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": -76778.0,
+          "unit": "EUR",
+          "page": 26,
+          "bbox": [
+            0.4962709070167361,
+            0.5561573659072625,
+            0.539810515430877,
+            0.5681300001297663
+          ],
+          "snippet": "Résultat financier",
+          "confidence": 0.95,
+          "column_header": "au 30/06/22",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 125062.0,
+          "unit": "EUR",
+          "page": 26,
+          "bbox": [
+            0.49949606319556134,
+            0.6781642098889685,
+            0.5402136599532301,
+            0.6889965932331387
+          ],
+          "snippet": "Participation des salariés Impôts sur les bénéfices",
+          "confidence": 0.95,
+          "column_header": "au 30/06/22",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_PERSONNEL_COSTS_FRGAAP",
+          "value": 3261831.0,
+          "unit": "EUR",
+          "page": 26,
+          "bbox": [
+            0.4865954384802603,
+            0.4472634070263941,
+            0.5402136599532301,
+            0.5239452785943355
+          ],
+          "snippet": "Salaires et traitements + charges sociales",
+          "confidence": 0.9025,
+          "column_header": "au 30/06/22",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 5852566.0,
+          "unit": "EUR",
+          "page": 26,
+          "bbox": [
+            0.48901430561437925,
+            0.23831243357174345,
+            0.5402136599532301,
+            0.2594070748209169
+          ],
+          "snippet": "Ventes de marchandises + production vendue",
+          "confidence": 0.9025,
+          "column_header": "au 30/06/22",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/445070311/bilans/pdf/bilan_2022-02-14_63e2481c916269756a09542b.pdf",
+      "siren": "445070311",
+      "fiscal_year_end": "2020-06-30",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 300000.0,
+          "unit": "EUR",
+          "page": 15,
+          "bbox": [
+            0.7369411764705881,
+            0.16218527315914488,
+            0.7934117647058823,
+            0.17387173396674582
+          ],
+          "snippet": "Capital social ou individuel",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "BS_TOTAL_ASSETS_FRGAAP",
+          "value": 6899412.0,
+          "unit": "EUR",
+          "page": 14,
+          "bbox": [
+            0.750252100840336,
+            0.9121140142517814,
+            0.8204369747899158,
+            0.9255106888361044
+          ],
+          "snippet": "TOTAL GÉNÉRAL",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 1488053.0,
+          "unit": "EUR",
+          "page": 16,
+          "bbox": [
+            0.7091092436974789,
+            0.39377672209026127,
+            0.772033613445378,
+            0.4455106888361045
+          ],
+          "snippet": "Achats marchandises + matières + variations stocks + production stockée",
+          "confidence": 0.78,
+          "column_header": "current period, first numeric column",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 302337.0,
+          "unit": "EUR",
+          "page": 17,
+          "bbox": [
+            0.7204033613445378,
+            0.7063182897862232,
+            0.7760672268907562,
+            0.7180047505938242
+          ],
+          "snippet": "Participation des salariés aux résultats de l'entreprise Impôts sur les bénéfices",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 5464059.0,
+          "unit": "EUR",
+          "page": 16,
+          "bbox": [
+            0.8337478991596637,
+            0.2476959619952494,
+            0.9031260504201679,
+            0.25938242280285034
+          ],
+          "snippet": "Chiffres d'affaires nets",
+          "confidence": 0.83,
+          "column_header": null,
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/445070311/bilans/pdf/bilan_2023-11-21_65a4095d5fd178b16b09b860.pdf",
+      "siren": "445070311",
+      "fiscal_year_end": "2022-06-30",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 300000.0,
+          "unit": "EUR",
+          "page": 25,
+          "bbox": [
+            0.7428456237176071,
+            0.15573302864112998,
+            0.8008867359342839,
+            0.16856816836430003
+          ],
+          "snippet": "Capital social ou individuel",
+          "confidence": 0.85,
+          "column_header": "Nol (n)",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "BS_TOTAL_ASSETS_FRGAAP",
+          "value": 10174922.0,
+          "unit": "EUR",
+          "page": 23,
+          "bbox": [
+            0.7396211174833474,
+            0.9095835683819844,
+            0.8133816975920408,
+            0.9198516801605204
+          ],
+          "snippet": "TOTAL GÉNÉRAL",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 1953566.0,
+          "unit": "EUR",
+          "page": 27,
+          "bbox": [
+            0.7134220043299863,
+            0.3891186526074388,
+            0.7762998758980528,
+            0.4406731304955051
+          ],
+          "snippet": "Achats marchandises + matières + variations stocks + production stockée",
+          "confidence": 0.78,
+          "column_header": "current period, first numeric column",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 621467.0,
+          "unit": "EUR",
+          "page": 29,
+          "bbox": [
+            0.7166465105642461,
+            0.6985168262676325,
+            0.7738814962223579,
+            0.7119224166451655
+          ],
+          "snippet": "Participation des salariés aux résultats de l'entreprise Impôts sur les bénéfices",
+          "confidence": 0.92,
+          "column_header": "Net (N)",
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 5824515.0,
+          "unit": "EUR",
+          "page": 27,
+          "bbox": [
+            0.838774684186837,
+            0.24415288006741254,
+            0.9076985049441407,
+            0.2558471184818564
+          ],
+          "snippet": "Chiffres d'affaires nets",
+          "confidence": 0.83,
+          "column_header": null,
+          "unit_evidence": "SAS au capital de 300.000 Euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/445070311/bilans/pdf/bilan_2025-05-15_6860f28ca0138eae340c7453.pdf",
+      "siren": "445070311",
+      "fiscal_year_end": "2023-06-30",
+      "fields": []
+    },
+    {
+      "pdf": "data/504304205/bilans/pdf/bilan_2017-05-31_63e13943526e1f30cd100db5.pdf",
+      "siren": "504304205",
+      "fiscal_year_end": "2016-12-31",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 1000000.0,
+          "unit": "EUR",
+          "page": 5,
+          "bbox": [
+            0.700334448160535,
+            0.10444708680142686,
+            0.7962541806020066,
+            0.1181450653983353
+          ],
+          "snippet": "Capital social ou individuel (1)* (Dont versé : ......O.O.O...Q.Q.Q.......",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 58362.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.740468227424749,
+            0.7886935866983372,
+            0.8054849498327759,
+            0.802375296912114
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos le,",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "META_AVG_WORKFORCE_FRGAAP",
+          "value": 9.0,
+          "unit": "count",
+          "page": 16,
+          "bbox": [
+            0.7444816053511705,
+            0.6914285714285714,
+            0.7597324414715718,
+            0.7045714285714285
+          ],
+          "snippet": "- Effectif moyen du personnel * (dont: apprentis:",
+          "confidence": 0.92,
+          "column_header": "Exercice N :",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": -20300.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.7284280936454849,
+            0.937142857142857,
+            0.8086956521739129,
+            0.9525714285714284
+          ],
+          "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 1146.0,
+          "unit": "EUR",
+          "page": 7,
+          "bbox": [
+            0.7420735785953176,
+            0.33902497027348394,
+            0.800267558528428,
+            0.3544351961950059
+          ],
+          "snippet": "Impôts sur les bénéfices (x) − *",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 1048023.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.7047491638795986,
+            0.16799999999999998,
+            0.7978595317725752,
+            0.1811428571428571
+          ],
+          "snippet": "Chiffres d'affaires nets*",
+          "confidence": 0.83,
+          "column_header": null,
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        }
+      ]
+    },
+    {
+      "pdf": "data/504304205/bilans/pdf/bilan_2018-10-24_63e13943526e1f30cd100db6.pdf",
+      "siren": "504304205",
+      "fiscal_year_end": "2017-12-31",
+      "fields": [
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 84561.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.7365378151260503,
+            0.7891814946619216,
+            0.8010756302521007,
+            0.8028469750889679
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos le,",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 127282.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.7227181208053691,
+            0.3642755344418052,
+            0.7891610738255033,
+            0.3931353919239905
+          ],
+          "snippet": "Achats marchandises + matières + variations stocks + production stockée",
+          "confidence": 0.76,
+          "column_header": "Exercice N, Total column",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_EXT_SERVICES_COSTS_FRGAAP",
+          "value": 14527.0,
+          "unit": "EUR",
+          "page": 16,
+          "bbox": [
+            0.7300671140939596,
+            0.41374407582938383,
+            0.794496644295302,
+            0.4276777251184834
+          ],
+          "snippet": "AUTRES ACHATS ET CHARGES EXTERNES",
+          "confidence": 0.92,
+          "column_header": "Exercice N :",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": -13520.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.7212080536912752,
+            0.9386223277909739,
+            0.7973154362416107,
+            0.9517339667458432
+          ],
+          "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
+          "confidence": 0.85,
+          "column_header": "manual visual selection",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 1146.0,
+          "unit": "EUR",
+          "page": 7,
+          "bbox": [
+            0.8938487394957982,
+            0.34049822064056934,
+            0.9491092436974788,
+            0.35302491103202843
+          ],
+          "snippet": "Impôts sur les bénéfices * (X)",
+          "confidence": 0.65,
+          "column_header": "Exercice N-1",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 964484.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.7195973154362416,
+            0.16959619952494062,
+            0.7932885906040268,
+            0.1821377672209026
+          ],
+          "snippet": "Chiffres d'affaires nets*",
+          "confidence": 0.83,
+          "column_header": null,
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        }
+      ]
+    },
+    {
+      "pdf": "data/504304205/bilans/pdf/bilan_2024-08-06_66cd893cedec9b09d50191e8.pdf",
+      "siren": "504304205",
+      "fiscal_year_end": "2020-12-31",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 1000000.0,
+          "unit": "EUR",
+          "page": 5,
+          "bbox": [
+            0.7208182823916454,
+            0.11965811619024129,
+            0.8090653731685857,
+            0.13076922697933513
+          ],
+          "snippet": "Capital social ou individuel (1)* (Dont versé : .",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 149451.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.7131969427336368,
+            0.7509971292320858,
+            0.7841957384950844,
+            0.7632478411277533
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "BS_TOTAL_ASSETS_FRGAAP",
+          "value": 360788.0,
+          "unit": "EUR",
+          "page": 23,
+          "bbox": [
+            0.5548878408659852,
+            0.8543799500559655,
+            0.6081730992307333,
+            0.8666097562651555
+          ],
+          "snippet": "TOTAL GÉNÉRAL (I+II+III+IV+V+VI)",
+          "confidence": 0.95,
+          "column_header": "31/12/2020 12",
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        },
+        {
+          "field_key": "META_AVG_WORKFORCE_FRGAAP",
+          "value": 0.0,
+          "unit": "count",
+          "page": 19,
+          "bbox": [
+            0.9387019575083057,
+            0.17421007786630033,
+            0.9499199066377263,
+            0.18445772950549447
+          ],
+          "snippet": "Effectif moyen du personnel * :",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Dossier N° SOMEP en Euros."
+        }
+      ]
+    },
+    {
+      "pdf": "data/401009741/bilans/pdf/bilan_2022-11-30_63e881158be6eb9f9d1ff975.pdf",
+      "siren": "401009741",
+      "fiscal_year_end": "2022-04-30",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 30348.0,
+          "unit": "EUR",
+          "page": 3,
+          "bbox": [
+            0.8901850143473123,
+            0.1509272446001265,
+            0.9485116420383924,
+            0.16319543272452242
+          ],
+          "snippet": "Capital social ou individuel (1)* (Dont versé :",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 367608.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.8797264466233946,
+            0.7962910012834651,
+            0.9465003790145622,
+            0.807703269306159
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos le,",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 612560.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8707864919716339,
+            0.23536099852681985,
+            0.9522471638012384,
+            0.42779988258799984
+          ],
+          "snippet": "Achats marchandises + matières + variations stocks + production stockée",
+          "confidence": 0.78,
+          "column_header": "Exercice N, Total column",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "PL_DEPRECIATION_AMORTIZATION_FRGAAP",
+          "value": 38537.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8804173103160207,
+            0.5147811211739984,
+            0.9458266182383139,
+            0.5272882273759067
+          ],
+          "snippet": "- dotations aux amortissements*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "PL_EXT_SERVICES_COSTS_FRGAAP",
+          "value": 297253.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8707864919716339,
+            0.43519044534367296,
+            0.9450240500429484,
+            0.4476975515455812
+          ],
+          "snippet": "Autres achats et charges externes (3) (6 bis)*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": -2778.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8928571173441869,
+            0.9334849265242469,
+            0.9542535842896523,
+            0.9476975472082335
+          ],
+          "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 63846.0,
+          "unit": "EUR",
+          "page": 5,
+          "bbox": [
+            0.8868378558789453,
+            0.32717452814537396,
+            0.9506420274105073,
+            0.339965886760962
+          ],
+          "snippet": "(x) HK Impôts sur les bénéfices *",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 1800826.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8515248552828605,
+            0.214894824741879,
+            0.9458266182383139,
+            0.2274019309437873
+          ],
+          "snippet": "Chiffres d’affaires nets *",
+          "confidence": 0.83,
+          "column_header": null,
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2022, dont le total est de 945 632 euros"
+        }
+      ]
+    },
+    {
+      "pdf": "data/401009741/bilans/pdf/bilan_2023-11-20_65784e5da67d84faf4042736.pdf",
+      "siren": "401009741",
+      "fiscal_year_end": "2023-04-30",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 30360.0,
+          "unit": "EUR",
+          "page": 5,
+          "bbox": [
+            0.893805287790207,
+            0.1489725988473605,
+            0.9541431785051174,
+            0.16267122862642813
+          ],
+          "snippet": "Capital social ou individuel (1)* (Dont versé :",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 229619.0,
+          "unit": "EUR",
+          "page": 4,
+          "bbox": [
+            0.8825422148567571,
+            0.7983527614573638,
+            0.9505229050622228,
+            0.8111332218862437
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos le,",
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        },
+        {
+          "field_key": "PL_DEPRECIATION_AMORTIZATION_FRGAAP",
+          "value": 48352.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.8861624882996517,
+            0.5145133840077987,
+            0.9501206524574568,
+            0.5278884553841076
+          ],
+          "snippet": "- dotations aux amortissements*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        },
+        {
+          "field_key": "PL_EXT_SERVICES_COSTS_FRGAAP",
+          "value": 329158.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.8757039205757339,
+            0.43369380377648514,
+            0.9505229050622228,
+            0.4467842991660641
+          ],
+          "snippet": "Autres achats et charges externes (3) (6 bis)*",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        },
+        {
+          "field_key": "PL_FINANCIAL_RESULTS_FRGAAP",
+          "value": -2096.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.8966210560235695,
+            0.9393853321956546,
+            0.9589702097623103,
+            0.9536141315321535
+          ],
+          "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
+          "confidence": 0.65,
+          "column_header": null,
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        },
+        {
+          "field_key": "PL_INCOME_TAX_FRGAAP",
+          "value": 53240.0,
+          "unit": "EUR",
+          "page": 7,
+          "bbox": [
+            0.8930007825806748,
+            0.323847472898714,
+            0.9569589467384799,
+            0.3375071202617529
+          ],
+          "snippet": "Impôts sur les bénéfices *",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        },
+        {
+          "field_key": "PL_REVENUE_FRGAAP",
+          "value": 10096.0,
+          "unit": "EUR",
+          "page": 6,
+          "bbox": [
+            0.703539805735856,
+            0.16989186407779636,
+            0.7598551704031058,
+            0.18355151144083526
+          ],
+          "snippet": "Ventes de marchandises + production vendue",
+          "confidence": 0.874,
+          "column_header": "Exercice N",
+          "unit_evidence": "l'exercice clos le 30 avril 2023 qui s'élève à la somme de 207.515 euros de la manière suivante :"
+        }
+      ]
+    },
+    {
+      "pdf": "data/401009741/bilans/pdf/bilan_2025-10-03_68f0a715f28d8aaf48046416.pdf",
+      "siren": "401009741",
+      "fiscal_year_end": "2025-04-30",
+      "fields": [
+        {
+          "field_key": "BS_CAPITAL_EQUITY_FRGAAP",
+          "value": 24960.0,
+          "unit": "EUR",
+          "page": 3,
+          "bbox": [
+            0.907661271707242,
+            0.15715915527703775,
+            0.9681451414345127,
+            0.17084997098175247
+          ],
+          "snippet": "Capital social ou individuel (1)* (Dont versé :",
+          "confidence": 0.92,
+          "column_header": "Exercice N",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2025, dont le total est de 1 135 864 euros"
+        },
+        {
+          "field_key": "BS_CASH_CURRENT_ASSET_FRGAAP",
+          "value": 300456.0,
+          "unit": "EUR",
+          "page": 2,
+          "bbox": [
+            0.8979838525508788,
+            0.8046206479791715,
+            0.9661290124436037,
+            0.8168853370479784
+          ],
+          "snippet": "Disponibilités",
+          "confidence": 0.92,
+          "column_header": "Exercice N clos le,",
+          "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/04/2025, dont le total est de 1 135 864 euros"
+        }
+      ]
+    }
+  ],
+  "run": {
+    "cost_eur_per_page": 0.0,
+    "seconds_per_page": 0.179,
+    "pages_processed": 415,
+    "model": "provided OCR + deterministic geometry rules",
+    "notes": "Supplied OCR with deterministic geometry, label, period, and component rules; 13 fields use bounded local visual review restricted to existing OCR evidence IDs; 3 use a French Tesseract TSV pass on localized pages. No paid API/VLM response was used. Cost is €0/page because both OCR paths run locally."
+  }
+}

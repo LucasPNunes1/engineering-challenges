@@ -144,8 +144,9 @@ Takeovers SAS · 144 avenue Charles de Gaulle, 92200 Neuilly-sur-Seine
 This submission implements the Bilan challenge for all 15 specified filings. The output
 is deliberately sparse: it omits fields where the supplied OCR does not provide enough
 label, current-period, or component evidence, rather than substituting zero or a guessed
-value. The final pre-submission step is a visual audit of every retained result; coverage
-is never presented as an accuracy claim.
+value. The final precision-filtered `results.json` retains 74 document-field pairs;
+coverage is never presented as an accuracy claim. The rendered review packet supports a
+final human audit of every retained result.
 
 ### Run
 
