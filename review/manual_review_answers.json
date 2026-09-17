@@ -1,0 +1,19 @@
+{
+  "answers": {
+    "6493e4372f502414800f8164_BS_CASH_CURRENT_ASSET_FRGAAP": {"status": "resolved", "evidence_id": "p6-r0-v0", "evidence_ids": [], "reason": "31/08/2021 Net column."},
+    "6543d3fd08093cdace058668_BS_CASH_CURRENT_ASSET_FRGAAP": {"status": "resolved", "evidence_id": "p3-r0-v0", "evidence_ids": [], "reason": "31/08/2022 Net column."},
+    "67458f18cea78a70070fa226_BS_CASH_CURRENT_ASSET_FRGAAP": {"status": "resolved", "evidence_id": "p1-r1-v0", "evidence_ids": [], "reason": "31/08/2023 Net column."},
+    "63e8ebbb54febda17c19ee7c_PL_INCOME_TAX_FRGAAP": {"status": "resolved", "evidence_id": "p4-r0-v0", "evidence_ids": [], "reason": "Current 01/07/2019–30/06/2020 column."},
+    "63e8ebbb54febda17c19ee7c_BS_TOTAL_ASSETS_FRGAAP": {"status": "resolved", "evidence_id": "p2-r0-v2", "evidence_ids": [], "reason": "Current Net 30/06/2020 column."},
+    "63e8ebbb54febda17c19ee7e_BS_CAPITAL_EQUITY_FRGAAP": {"status": "resolved", "evidence_id": "p3-r0-v1", "evidence_ids": [], "reason": "Capital social, Exercice N 2022."},
+    "63e2481c916269756a09542b_PL_EXT_SERVICES_COSTS_FRGAAP": {"status": "resolved", "evidence_id": "p16-r1-v0", "evidence_ids": [], "reason": "Autres achats et charges externes, Net (N) 2020."},
+    "63e2481c916269756a09542b_PL_INCOME_TAX_FRGAAP": {"status": "resolved", "evidence_id": "p17-r0-v0", "evidence_ids": [], "reason": "Impôts sur les bénéfices, Net (N) 2020."},
+    "63e2481c916269756a09542b_BS_CAPITAL_EQUITY_FRGAAP": {"status": "resolved", "evidence_id": "p15-r0-v1", "evidence_ids": [], "reason": "Capital social ou individuel, Net (N) 2020."},
+    "63e2481c916269756a09542b_BS_TOTAL_ASSETS_FRGAAP": {"status": "resolved", "evidence_id": "p14-r0-v2", "evidence_ids": [], "reason": "Total général actif, Net (N) 2020."},
+    "65a4095d5fd178b16b09b860_PL_EXT_SERVICES_COSTS_FRGAAP": {"status": "resolved", "evidence_id": "p27-r1-v0", "evidence_ids": [], "reason": "Autres achats et charges externes, Net (N) 2022."},
+    "65a4095d5fd178b16b09b860_BS_TOTAL_ASSETS_FRGAAP": {"status": "resolved", "evidence_id": "p23-r0-v2", "evidence_ids": [], "reason": "Total général actif, Net (N) 2022."},
+    "65a4095d5fd178b16b09b860_BS_CAPITAL_EQUITY_FRGAAP": {"status": "resolved", "evidence_id": "p25-r0-v1", "evidence_ids": [], "reason": "Capital social ou individuel, Net (N) 2022."},
+    "63e13943526e1f30cd100db5_PL_FINANCIAL_RESULTS_FRGAAP": {"status": "resolved", "evidence_id": "p6-r0-v0", "evidence_ids": [], "reason": "Résultat financier (V - VI), Exercice N 2017."},
+    "63e13943526e1f30cd100db6_PL_FINANCIAL_RESULTS_FRGAAP": {"status": "resolved", "evidence_id": "p6-r0-v0", "evidence_ids": [], "reason": "Résultat financier (V - VI), Exercice N 2017."}
+  }
+}

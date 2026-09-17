@@ -15,7 +15,7 @@ from pathlib import Path
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--queue", type=Path, default=Path("artifacts/review_queue/queue.json"))
-    parser.add_argument("--answers", type=Path, default=Path("artifacts/manual_review_answers.json"))
+    parser.add_argument("--answers", type=Path, default=Path("review/manual_review_answers.json"))
     parser.add_argument("--output", type=Path, default=Path("artifacts/manual_selections.json"))
     args = parser.parse_args()
 
