@@ -53,6 +53,16 @@ class OcrParsingTest(unittest.TestCase):
         self.assertEqual([value["column_index"] for value in values], [0, 1])
         self.assertEqual([value["column_header"] for value in values], ["au 30/06/20", "au 30/06/19"])
 
+    def test_split_label_and_one_ocr_typo_can_match_a_known_row(self):
+        lines = [
+            OcrLine("Autres achats et", Box(100, 100, 260, 122), 0.99),
+            OcrLine("charges extemes", Box(100, 126, 260, 148), 0.99),
+            OcrLine("12 500", Box(500, 110, 570, 140), 0.99),
+        ]
+        rows = labelled_rows(lines, [Box(0, 0, 800, 300)])
+        self.assertEqual(rows[0]["field_key"], "PL_EXT_SERVICES_COSTS_FRGAAP")
+        self.assertEqual(rows[0]["values"][0]["parsed_value"], 12500)
+
     def test_fiscal_period_and_header_date_are_parsed(self):
         self.assertEqual(str(fiscal_end_from_text("Exercice clos le 31 août 2021")), "2021-08-31")
         self.assertEqual(str(fiscal_end_from_text("Exercice clos le 30/06/2020")), "2020-06-30")

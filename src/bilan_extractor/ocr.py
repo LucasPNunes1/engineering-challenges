@@ -74,6 +74,28 @@ def read_table_boxes(path: Path) -> list[Box]:
     ]
 
 
+def read_table_label_lines(path: Path) -> list[OcrLine]:
+    """Return text reconstructed by the layout detector at table-cell granularity.
+
+    The flat OCR stream often splits a row label across adjacent lines.  A detected cell
+    usually preserves that label as one unit, so it is useful as an additional *label*
+    hint.  Numeric cells are deliberately excluded: flat OCR remains the single source
+    of value geometry and avoids duplicated numeric candidates.
+    """
+    raw = json.loads(path.read_text())
+    output = []
+    for table in raw.get("layout", []):
+        if table.get("label") != "table":
+            continue
+        for cell in table.get("cells", []):
+            fragments = [item.get("text", "").strip() for item in cell.get("texts", [])]
+            text = " ".join(fragment for fragment in fragments if fragment)
+            bbox = cell.get("bbox")
+            if text and bbox and not NUMBER_RE.search(text):
+                output.append(OcrLine(text=text, box=Box(*bbox), score=cell.get("score")))
+    return output
+
+
 def parse_number(token: str) -> float:
     """Parse common French OCR number formatting without applying a currency unit."""
     negative_parentheses = token.strip().endswith(")")

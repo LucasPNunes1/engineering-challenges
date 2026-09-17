@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from difflib import SequenceMatcher
 from collections.abc import Iterable
 
 from bilan_extractor.discovery import normalized_text
@@ -147,13 +148,64 @@ def field_matches_page_context(field_key: str, label: OcrLine, page_lines: Itera
     return "bilan actif" in page_text or "actif" in normalized_text(label.text)
 
 
-def labelled_rows(lines: list[OcrLine], table_boxes: list[Box]) -> list[dict]:
+def compact_text(value: str) -> str:
+    """Normalize small OCR punctuation/spacing differences before fuzzy comparison."""
+    return re.sub(r"[^a-z0-9]", "", normalized_text(value))
+
+
+def aliases_match(label: str, aliases: tuple[str, ...]) -> str | None:
+    normalized = normalized_text(label)
+    compact_label = compact_text(label)
+    for alias in aliases:
+        normalized_alias = normalized_text(alias)
+        if normalized_alias in normalized:
+            return alias
+        compact_alias = compact_text(alias)
+        # A conservative fuzzy fallback only repairs close OCR typos; it does not make
+        # semantic guesses about a different accounting row.
+        if len(compact_alias) >= 10 and SequenceMatcher(None, compact_alias, compact_label).ratio() >= 0.88:
+            return alias
+    return None
+
+
+def combined_label_lines(lines: Iterable[OcrLine]) -> list[OcrLine]:
+    """Join vertically adjacent, left-aligned OCR label fragments (up to 3 lines)."""
+    source = sorted(lines, key=lambda line: (line.box.y0, line.box.x0))
+    output = list(source)
+    for index, first in enumerate(source):
+        parts = [first]
+        for following in source[index + 1:]:
+            previous = parts[-1]
+            # Values on the same baseline sort between two label fragments by x; they
+            # are not a continuation, but should not prevent us from seeing the next
+            # left-aligned line.
+            if following.box.y0 <= previous.box.y1:
+                continue
+            close_below = 0 <= following.box.y0 - previous.box.y1 <= max(55.0, previous.box.height * 1.8)
+            left_aligned = abs(following.box.x0 - first.box.x0) <= max(80.0, first.box.height * 2)
+            # A continuation of a label is normally in the same left-hand region, not
+            # a number to its right on the next row.
+            not_to_right = following.box.x0 <= first.box.x1 + 100
+            if not (close_below and left_aligned and not_to_right):
+                break
+            parts.append(following)
+            output.append(OcrLine(
+                text=" ".join(part.text for part in parts),
+                box=Box(min(part.box.x0 for part in parts), min(part.box.y0 for part in parts), max(part.box.x1 for part in parts), max(part.box.y1 for part in parts)),
+                score=min((part.score for part in parts if part.score is not None), default=None),
+            ))
+            if len(parts) == 3:
+                break
+    return output
+
+
+def labelled_rows(lines: list[OcrLine], table_boxes: list[Box], label_hints: list[OcrLine] | None = None) -> list[dict]:
     """Produce auditable label/value candidates. It intentionally does not choose N yet."""
     output = []
+    labels = combined_label_lines([*lines, *(label_hints or [])])
     for field_key, aliases in FIELD_LABELS.items():
-        for label in lines:
-            label_text = normalized_text(label.text)
-            matched_alias = next((alias for alias in aliases if normalized_text(alias) in label_text), None)
+        for label in labels:
+            matched_alias = aliases_match(label.text, aliases)
             if not matched_alias or not field_matches_page_context(field_key, label, lines):
                 continue
             table = matching_table(label, table_boxes)

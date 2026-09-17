@@ -78,19 +78,17 @@ Reason for review: {task['status']}
 
 Use the supplied image(s) and OCR candidate evidence. Select the value for the current fiscal period only. For a derived field, list every component used and calculate the sum exactly as printed, preserving signs. If evidence is insufficient, return status "unresolved".
 
-Return JSON only:
+Return JSON only. ``evidence_id`` must be one of the supplied IDs; do not estimate a
+new bounding box. For a formula, put every chosen component ID in ``evidence_ids``.
 {{
   "status": "resolved" | "unresolved",
-  "value": number | null,
-  "unit": "EUR" | "kEUR" | "count" | null,
-  "page": integer | null,
-  "value_bbox_px": [x0, y0, x1, y1] | null,
-  "components": [{{"label": string, "value": number, "bbox_px": [x0, y0, x1, y1]}}],
+  "evidence_id": string | null,
+  "evidence_ids": [string],
   "reason": string
 }}
 
-OCR candidate evidence:
-{json.dumps(task['candidates'], ensure_ascii=False, indent=2)}
+OCR candidate evidence (select only these evidence_id values):
+{json.dumps(task['evidence_values'], ensure_ascii=False, indent=2)}
 """
 
 
@@ -152,17 +150,24 @@ def main() -> None:
             category = FIELD_CATEGORY.get(field_key, "income_statement" if field_key.startswith("PL_") else None)
             fallback_pages = [item["page"] for item in page_matches if category and category in item["matches"]]
             candidates = []
+            evidence_values = []
             for row in evidence_rows:
+                row_index = len(candidates)
                 candidates.append({
                     "page": row["page"], "label": row["label_text"], "label_bbox_px": row["label_bbox_px"],
                     "table_bbox_px": row["table_bbox_px"], "values": row["values"],
                 })
+                for value_index, value in enumerate(row["values"]):
+                    evidence_values.append({
+                        "evidence_id": f"p{row['page']}-r{row_index}-v{value_index}",
+                        "page": row["page"], "label": row["label_text"], **value,
+                    })
             task_pages = sorted({item["page"] for item in candidates} or set(fallback_pages))
             task = {
                 "task_id": safe_name(f"{doc_id}_{field_key}"), "siren": siren, "pdf": pdf_name,
                 "document_id": doc_id, "field_key": field_key, "label_fr": definition["label_fr"],
                 "notes": definition["notes"], "fiscal_year_end": fiscal_end, "status": status,
-                "candidate_pages": task_pages, "candidates": candidates,
+                "candidate_pages": task_pages, "candidates": candidates, "evidence_values": evidence_values,
             }
             task["prompt_file"] = f"prompts/{task['task_id']}.md"
             task["images"] = []

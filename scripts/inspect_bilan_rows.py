@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from bilan_extractor.ocr import read_page, read_table_boxes
+from bilan_extractor.ocr import read_page, read_table_boxes, read_table_label_lines
 from bilan_extractor.table_geometry import labelled_rows
 from bilan_extractor.targets import TARGETS, document_id
 
@@ -27,7 +27,7 @@ def main() -> None:
         rows = []
         for path in sorted((args.data_root / siren / "bilans" / "ocr" / doc_id).glob("page_*.json")):
             page, lines = read_page(path)
-            for row in labelled_rows(lines, read_table_boxes(path)):
+            for row in labelled_rows(lines, read_table_boxes(path), read_table_label_lines(path)):
                 row["page"] = page
                 rows.append(row)
         documents.append({"siren": siren, "pdf": pdf_name, "document_id": doc_id, "rows": rows})
