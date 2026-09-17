@@ -29,6 +29,7 @@ def main() -> None:
     normalized = json.loads(args.input.read_text())
     documents = []
     pages_processed = 0
+    manual_fields = 0
     for document in normalized["documents"]:
         ocr_dir = args.data_root / document["siren"] / "bilans" / "ocr" / document["document_id"]
         lines = []
@@ -47,6 +48,8 @@ def main() -> None:
                 chosen[selection["field_key"]] = selection
         fields = []
         for selection in sorted(chosen.values(), key=lambda item: item["field_key"]):
+            if selection.get("selection_reason", "").startswith("local visual review:"):
+                manual_fields += 1
             field_unit = "count" if selection["field_key"] == "META_AVG_WORKFORCE_FRGAAP" else unit
             fields.append(
                 {
@@ -77,7 +80,11 @@ def main() -> None:
             "seconds_per_page": args.seconds_per_page,
             "pages_processed": pages_processed,
             "model": "provided OCR + deterministic geometry rules",
-            "notes": "Working validation build: direct high-confidence fields only. Timing will be measured over the final pipeline before submission.",
+            "notes": (
+                "Supplied OCR with deterministic geometry, label, period, and component rules; "
+                f"{manual_fields} fields use bounded local visual review restricted to existing OCR evidence IDs. "
+                "No paid API/VLM response was used. Cost is €0/page because the supplied OCR is local."
+            ),
         },
     }
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
