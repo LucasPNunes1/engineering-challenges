@@ -147,6 +147,21 @@ class OcrParsingTest(unittest.TestCase):
         self.assertTrue(is_current_period_header("Net (N)"))
         self.assertFalse(is_current_period_header("Exercice (N-1)"))
 
+    def test_revenue_prefers_total_over_export_subcolumn(self):
+        row = {
+            "field_key": "PL_REVENUE_FRGAAP", "label_text": "Chiffres d'affaires nets",
+            "page": 4,
+            "values": [
+                {"parsed_value": 1770709, "bbox_px": [1, 2, 3, 4], "column_header": None, "column_index": 7},
+                {"parsed_value": 30117, "bbox_px": [5, 2, 7, 4], "column_header": "Exercice N", "column_index": 8},
+                {"parsed_value": 1800826, "bbox_px": [8, 2, 10, 4], "column_header": None, "column_index": 11},
+                {"parsed_value": 1258319, "bbox_px": [11, 2, 13, 4], "column_header": "Exercice (N-1)", "column_index": 13},
+            ],
+        }
+        selected = select_current_value(row, None)
+        self.assertEqual(selected["value"], 1800826)
+        self.assertEqual(selected["confidence"], 0.83)
+
     def test_personnel_cost_is_derived_only_when_both_components_share_a_page(self):
         selections = [
             {"field_key": "COMP_PERSONNEL_SALARIES", "value": 100, "page": 4, "bbox_px": [1, 2, 3, 4], "confidence": 0.95},

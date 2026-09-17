@@ -10,6 +10,10 @@ from bilan_extractor.fiscal_period import header_date
 
 # These patterns deliberately exclude related annex disclosures such as share counts.
 DIRECT_LABEL_RULES: dict[str, tuple[str, ...]] = {
+    "PL_REVENUE_FRGAAP": (
+        "chiffre d affaires net", "chiffres d affaires nets",
+        "chiffre d'affaires net", "chiffres d'affaires nets",
+    ),
     "PL_EXT_SERVICES_COSTS_FRGAAP": ("autres achats et charges externes",),
     "PL_DEPRECIATION_AMORTIZATION_FRGAAP": (
         "dotations aux amortissements",
@@ -43,6 +47,31 @@ def select_current_value(row: dict, fiscal_end: date | None, *, require_direct_l
     """Choose a current-period value from an exact date or an explicit ``Exercice N`` header."""
     if require_direct_label and not is_direct_label(row):
         return None
+    # On form 2052, net revenue has France/export columns followed by a Total column
+    # and then N-1. Headers often align to the export subcolumn rather than Total. For
+    # this one canonical total row, choose the right-most current-period column instead
+    # of mistakenly accepting the export value tagged "Exercice N".
+    if row["field_key"] == "PL_REVENUE_FRGAAP":
+        values = row["values"]
+        previous_indices = [
+            value["column_index"]
+            for value in values
+            if "n-1" in normalized_text(value.get("column_header") or "")
+        ]
+        current_values = [
+            value for value in values
+            if not previous_indices or value["column_index"] < min(previous_indices)
+        ]
+        if current_values:
+            value = max(current_values, key=lambda item: item["column_index"])
+            return {
+                "field_key": row["field_key"], "value": value["parsed_value"],
+                "page": row["page"], "bbox_px": value["bbox_px"], "label": row["label_text"],
+                "column_header": value["column_header"],
+                "fiscal_year_end": None if fiscal_end is None else fiscal_end.isoformat(),
+                "confidence": 0.83,
+                "selection_reason": "net-revenue Total column immediately before N-1 / right-most current column",
+            }
     matches = [
         value for value in row["values"]
         if fiscal_end is not None and header_date(value.get("column_header")) == fiscal_end
