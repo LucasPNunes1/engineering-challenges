@@ -141,10 +141,11 @@ Takeovers SAS · 144 avenue Charles de Gaulle, 92200 Neuilly-sur-Seine
 
 ## Bilan implementation
 
-This submission implements the Bilan challenge for all 15 specified filings. The current
-`results.json` contains 90 grounded document-field pairs. It deliberately omits fields
-where the supplied OCR does not provide sufficient label, current-period, or component
-evidence; it does not substitute zero or a guessed value.
+This submission implements the Bilan challenge for all 15 specified filings. The output
+is deliberately sparse: it omits fields where the supplied OCR does not provide enough
+label, current-period, or component evidence, rather than substituting zero or a guessed
+value. The final pre-submission step is a visual audit of every retained result; coverage
+is never presented as an accuracy claim.
 
 ### Run
 
@@ -183,19 +184,19 @@ Tesseract over 12 localized pages in 23.704 seconds. The combined measurement is
 is **€0.00/page**.
 
 The trade-off is coverage for provenance. A cropped visual-review queue is used only
-when the target label and finite OCR candidates already exist. The final unresolved
-queue has 90 pairs: 57 lack a usable label/value in supplied OCR, 24 lack a required
-formula component, and 9 remain localized column/formula questions. With another week,
-I would benchmark a French-language second OCR or a vision fallback only on these
-localized pages, then require it to return an existing OCR bbox or undergo a separate
-bbox-validation step.
+when the target label and finite OCR candidates already exist. During audit, a plausible
+label-plus-bbox was shown to be insufficient: the supplied OCR can omit digits (for
+example, reading `300` instead of `7,300`) and combine adjacent labels. Those selections
+are removed rather than silently retained. With another week, I would benchmark a
+French-language second OCR or a vision fallback only on localized pages, then require it
+to return an existing OCR bbox or undergo a separate bbox-validation step.
 
 ### How I used AI
 
 I used an AI coding assistant to accelerate code exploration, formulate extraction rules,
-and inspect a bounded set of rendered statement pages. I independently checked the
-resulting values against the page images and constrained every reviewed choice to OCR
-evidence. The assistant initially exposed an incorrect assumption in some manual review
-candidate indices; the pipeline now validates that each selected ID belongs to the
-current queue, and those indices were corrected before inclusion. No AI/VLM API response
-contributed to `results.json`: the attempted API integration had no available API credit.
+and inspect a bounded set of rendered statement pages. Every manual selection is
+constrained to a local OCR evidence ID and bbox. The audit also found cases where the
+assistant's deterministic proposal was wrong despite a plausible label match, so the
+pipeline was tightened and the remaining output is being checked page by page. No AI/VLM
+API response contributed to `results.json`: the attempted API integration had no
+available API credit.
