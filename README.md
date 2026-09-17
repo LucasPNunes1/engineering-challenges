@@ -1,3 +1,75 @@
+# Bilan challenge submission
+
+This is my implementation of the [Bilan](challenges/bilan/BRIEF.md) challenge: extract
+12 French-GAAP financial fields from 15 annual filings, with document/page/bounding-box
+provenance for every emitted value.
+
+`results.json` at the repository root is the deliverable. The final, deliberately
+precision-filtered output contains **74 grounded document-field pairs**. It omits values
+where the supplied OCR does not provide enough evidence, rather than emitting zero or a
+guess; coverage is therefore not presented as an accuracy claim.
+
+Detailed engineering rationale is in [notes/engineering-decisions.md](notes/engineering-decisions.md).
+The three-minute walkthrough outline is in [notes/video-script.md](notes/video-script.md).
+
+## Run
+
+Requires Python 3.11+. The standard extraction path requires no API key and makes no
+external request.
+
+```bash
+python -m venv .venv
+.venv/bin/pip install -e . pytest jsonschema
+
+PYTHONPATH=src .venv/bin/python scripts/inspect_bilan_rows.py
+PYTHONPATH=src .venv/bin/python scripts/select_direct_bilan_values.py
+PYTHONPATH=src .venv/bin/python scripts/derive_bilan_fields.py
+.venv/bin/python scripts/build_bilan_review_queue.py
+PYTHONPATH=src .venv/bin/python scripts/apply_manual_reviews.py
+.venv/bin/python scripts/run_french_ocr_spike.py
+.venv/bin/python scripts/normalize_bilan_bboxes.py
+PYTHONPATH=src .venv/bin/python scripts/build_bilan_results.py --seconds-per-page 0.179
+
+PYTHONPATH=src .venv/bin/python -m pytest -q
+```
+
+The localized French OCR spike is optional: to run it, download the official
+`fra.traineddata` model into `tools/tessdata/fra.traineddata` and ensure the `tesseract`
+binary is on `PATH`. `review/manual_review_answers.json` is a bounded, versioned review
+layer: every selection refers to an evidence ID emitted by the local queue, so it cannot
+introduce a new value or fabricated bounding box. Regenerate the optional visual review
+packet with `.venv/bin/python scripts/generate_bilan_review.py`.
+
+## Approach and trade-offs
+
+The pipeline uses supplied OCR, table geometry, tolerant French-label matching,
+fiscal-period selection, numeric-fragment reconstruction, and grounded formulas. It
+processes 415 supplied OCR pages in 50.768 seconds, then runs French Tesseract over 12
+localized pages in 23.704 seconds: **0.179 seconds/page** overall. It makes no paid model
+request, so incremental extraction cost is **€0.00/page**.
+
+I chose provenance over apparent coverage. A cropped visual-review queue is used only
+when the target label and finite OCR candidates already exist. The audit found that a
+plausible label-plus-bbox was insufficient: supplied OCR can omit digits (for example,
+read `300` instead of `7,300`) and combine adjacent labels. Such selections are removed
+rather than silently retained. With another week, I would benchmark a second French OCR
+or a vision fallback only on localized pages, then require it to return existing OCR
+evidence or undergo separate bbox validation.
+
+## How I used AI
+
+I used an AI coding assistant primarily to understand the problem domain and accelerate
+implementation. I led the engineering decisions: the deterministic approach, row/column
+association, bounded-review strategy, cost constraint, and the choice to prefer omission
+over unsupported values were decisions I independently reached; the assistant helped
+explore, challenge, and extend them in code. I checked retained values through rendered
+OCR evidence and bbox review. That audit also found cases where an assistant-generated
+deterministic proposal was wrong despite a plausible label match, so the pipeline was
+tightened. No AI/VLM API response contributed to `results.json`: the attempted API
+integration had no available credit.
+
+---
+
 # Takeovers — engineering challenges
 
 Thousands of French companies change hands every year. The record of who owns them and
@@ -136,71 +208,3 @@ Questions: **contact@takeovers.ai**.
 ---
 
 Takeovers SAS · 144 avenue Charles de Gaulle, 92200 Neuilly-sur-Seine
-
----
-
-## Bilan implementation
-
-This submission implements the Bilan challenge for all 15 specified filings. The output
-is deliberately sparse: it omits fields where the supplied OCR does not provide enough
-label, current-period, or component evidence, rather than substituting zero or a guessed
-value. The final precision-filtered `results.json` retains 74 document-field pairs;
-coverage is never presented as an accuracy claim. The rendered review packet supports a
-final human audit of every retained result.
-
-### Run
-
-Requires Python 3.11+.
-
-```bash
-python -m venv .venv
-.venv/bin/pip install -e . pytest jsonschema
-
-PYTHONPATH=src .venv/bin/python scripts/inspect_bilan_rows.py
-PYTHONPATH=src .venv/bin/python scripts/select_direct_bilan_values.py
-PYTHONPATH=src .venv/bin/python scripts/derive_bilan_fields.py
-.venv/bin/python scripts/build_bilan_review_queue.py
-PYTHONPATH=src .venv/bin/python scripts/apply_manual_reviews.py
-.venv/bin/python scripts/run_french_ocr_spike.py
-.venv/bin/python scripts/normalize_bilan_bboxes.py
-PYTHONPATH=src .venv/bin/python scripts/build_bilan_results.py --seconds-per-page 0.179
-
-PYTHONPATH=src .venv/bin/python -m pytest -q
-```
-
-Before the optional French OCR pass, download the official `fra.traineddata` model into
-`tools/tessdata/fra.traineddata` and ensure the `tesseract` binary is on `PATH`.
-`review/manual_review_answers.json` is a bounded, versioned review layer. Each answer
-can select only an `evidence_id` emitted by the local queue, so it cannot introduce a
-new value or a fabricated bbox. Optional review images can be regenerated with
-`.venv/bin/python scripts/generate_bilan_review.py`.
-
-### Trade-off and measurement
-
-The pipeline uses the supplied OCR, table geometry, tolerant French-label matching,
-fiscal-period selection, numeric-fragment reconstruction, and grounded formulas. It
-processes all 415 supplied OCR pages in 50.768 seconds serially, then runs French
-Tesseract over 12 localized pages in 23.704 seconds. The combined measurement is
-**0.179 seconds/page**. It makes no paid model request, so incremental extraction cost
-is **€0.00/page**.
-
-The trade-off is coverage for provenance. A cropped visual-review queue is used only
-when the target label and finite OCR candidates already exist. During audit, a plausible
-label-plus-bbox was shown to be insufficient: the supplied OCR can omit digits (for
-example, reading `300` instead of `7,300`) and combine adjacent labels. Those selections
-are removed rather than silently retained. With another week, I would benchmark a
-French-language second OCR or a vision fallback only on localized pages, then require it
-to return an existing OCR bbox or undergo a separate bbox-validation step.
-
-### How I used AI
-
-I used an AI coding assistant primarily to understand the problem domain and accelerate
-implementation. I led the engineering decisions: the main deterministic approach,
-row/column association, bounded review strategy, cost constraint, and the decision to
-prefer omission over an unsupported value were decisions I independently reached; the
-assistant helped explore, challenge, and extend them in code. Every manual selection is
-constrained to a local OCR evidence ID and bbox. The audit also found cases where an
-assistant-generated deterministic proposal was wrong despite a plausible label match, so
-the pipeline was tightened and the remaining output is being checked page by page. No
-AI/VLM API response contributed to `results.json`: the attempted API integration had no
-available API credit.
