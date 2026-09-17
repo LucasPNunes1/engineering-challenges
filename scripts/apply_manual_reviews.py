@@ -45,12 +45,15 @@ def main() -> None:
             if prior is None:
                 rejected.append({"task_id": task_id, "reason": "task is no longer unresolved and has no prior validated selection"})
                 continue
+            selection = prior["selection"].copy()
+            if answer.get("column_header"):
+                selection["column_header"] = answer["column_header"]
             source = prior["document"]
             document = documents.setdefault(
                 source["document_id"],
                 {key: source[key] for key in ("siren", "pdf", "document_id", "fiscal_year_end")} | {"selections": []},
             )
-            document["selections"].append(prior["selection"])
+            document["selections"].append(selection)
             continue
         evidence_id = answer.get("evidence_id")
         evidence = next((item for item in task["evidence_values"] if item["evidence_id"] == evidence_id), None)
@@ -68,7 +71,7 @@ def main() -> None:
             {
                 "field_key": task["field_key"], "value": evidence["parsed_value"], "page": evidence["page"],
                 "bbox_px": evidence["bbox_px"], "label": evidence["label"],
-                "column_header": evidence.get("column_header") or "manual visual selection",
+                "column_header": answer.get("column_header") or evidence.get("column_header") or "manual visual selection",
                 "fiscal_year_end": task["fiscal_year_end"], "confidence": 0.85,
                 "selection_reason": f"local visual review: {evidence_id}; {answer.get('reason', '')}",
             }

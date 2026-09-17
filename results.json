@@ -34,7 +34,7 @@
           ],
           "snippet": "DISPONIBILITES",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net, 31/08/2021",
           "unit_evidence": "Le bilan de l'exercice présente un total de 638 962 euros."
         },
         {
@@ -105,7 +105,7 @@
           ],
           "snippet": "DISPONIBILITES",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net, 31/08/2022",
           "unit_evidence": "Le bilan de l'exercice présente un total de 638 554 euros."
         },
         {
@@ -176,7 +176,7 @@
           ],
           "snippet": "DISPONIBILITES Charges constatées d'avance",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net, 31/08/2023",
           "unit_evidence": "SARL au capital de 150 000 euros"
         },
         {
@@ -231,7 +231,7 @@
           ],
           "snippet": "TOTAL GENERAL",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net, 30/06/2020",
           "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2020, dont le tota)est de 3 500 529 euros"
         },
         {
@@ -263,7 +263,7 @@
           ],
           "snippet": "Impôts sur les bénéfices",
           "confidence": 0.85,
-          "column_header": "du 01/07/19",
+          "column_header": "Current period, 01/07/2019–30/06/2020",
           "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2020, dont le tota)est de 3 500 529 euros"
         }
       ]
@@ -405,7 +405,7 @@
           ],
           "snippet": "Capital social ou individuel (1)* (Dont versé :",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Exercice N, 2022",
           "unit_evidence": "Annexe au bilan avant répartition de l'exercice clos le 30/06/2022, dont le total est de 6 233 746 euros"
         },
         {
@@ -556,7 +556,7 @@
           ],
           "snippet": "Capital social ou individuel",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net (N), 2020",
           "unit_evidence": "SAS au capital de 300.000 Euros"
         },
         {
@@ -572,7 +572,7 @@
           ],
           "snippet": "TOTAL GÉNÉRAL",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net (N), 2020",
           "unit_evidence": "SAS au capital de 300.000 Euros"
         },
         {
@@ -604,7 +604,7 @@
           ],
           "snippet": "Participation des salariés aux résultats de l'entreprise Impôts sur les bénéfices",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net (N), 2020",
           "unit_evidence": "SAS au capital de 300.000 Euros"
         },
         {
@@ -643,7 +643,7 @@
           ],
           "snippet": "Capital social ou individuel",
           "confidence": 0.85,
-          "column_header": "Nol (n)",
+          "column_header": "Net (N), 2022",
           "unit_evidence": "SAS au capital de 300.000 Euros"
         },
         {
@@ -659,7 +659,7 @@
           ],
           "snippet": "TOTAL GÉNÉRAL",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Net (N), 2022",
           "unit_evidence": "SAS au capital de 300.000 Euros"
         },
         {
@@ -784,7 +784,7 @@
           ],
           "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Exercice N, 2017",
           "unit_evidence": "Dossier N° SOMEP en Euros."
         },
         {
@@ -887,7 +887,7 @@
           ],
           "snippet": "2 - RÉSULTAT FINANCIER (V - VI)",
           "confidence": 0.85,
-          "column_header": "manual visual selection",
+          "column_header": "Exercice N, 2017",
           "unit_evidence": "Dossier N° SOMEP en Euros."
         },
         {
