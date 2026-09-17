@@ -193,10 +193,13 @@ to return an existing OCR bbox or undergo a separate bbox-validation step.
 
 ### How I used AI
 
-I used an AI coding assistant to accelerate code exploration, formulate extraction rules,
-and inspect a bounded set of rendered statement pages. Every manual selection is
-constrained to a local OCR evidence ID and bbox. The audit also found cases where the
-assistant's deterministic proposal was wrong despite a plausible label match, so the
-pipeline was tightened and the remaining output is being checked page by page. No AI/VLM
-API response contributed to `results.json`: the attempted API integration had no
+I used an AI coding assistant primarily to understand the problem domain and accelerate
+implementation. I led the engineering decisions: the main deterministic approach,
+row/column association, bounded review strategy, cost constraint, and the decision to
+prefer omission over an unsupported value were decisions I independently reached; the
+assistant helped explore, challenge, and extend them in code. Every manual selection is
+constrained to a local OCR evidence ID and bbox. The audit also found cases where an
+assistant-generated deterministic proposal was wrong despite a plausible label match, so
+the pipeline was tightened and the remaining output is being checked page by page. No
+AI/VLM API response contributed to `results.json`: the attempted API integration had no
 available API credit.
