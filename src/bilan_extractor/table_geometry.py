@@ -63,12 +63,43 @@ def row_values(label: OcrLine, lines: Iterable[OcrLine], bounds: Box | None = No
     # Keep this deliberately conservative: a numeric line just below the label is often
     # the next accounting row, not a shifted value from the current one.
     tolerance = max(28.0, min(42.0, label.box.height * 0.75))
-    return [
+    fragments = [
         line
         for line in numeric_lines(lines, bounds)
         if line.box.x0 > label.box.x1
         and abs(line.box.center_y - label.box.center_y) <= tolerance
     ]
+    return merge_numeric_fragments(fragments)
+
+
+def merge_numeric_fragments(lines: Iterable[OcrLine]) -> list[OcrLine]:
+    """Join OCR fragments such as ``367`` + ``608`` into one table cell ``367 608``.
+
+    Financial numbers are commonly split by the OCR at thousands separators. Only boxes
+    that are on the same visual baseline and nearly touching are joined; the large gap
+    between table columns is preserved.
+    """
+    merged: list[OcrLine] = []
+    for fragment in sorted(lines, key=lambda line: (line.box.center_y, line.box.x0)):
+        if not merged:
+            merged.append(fragment)
+            continue
+        previous = merged[-1]
+        same_baseline = abs(fragment.box.center_y - previous.box.center_y) <= max(
+            previous.box.height, fragment.box.height
+        )
+        small_horizontal_gap = 0 <= fragment.box.x0 - previous.box.x1 <= 24
+        if same_baseline and small_horizontal_gap:
+            merged[-1] = OcrLine(
+                text=f"{previous.text} {fragment.text}",
+                box=Box(previous.box.x0, min(previous.box.y0, fragment.box.y0), fragment.box.x1, max(previous.box.y1, fragment.box.y1)),
+                score=min(score for score in (previous.score, fragment.score) if score is not None)
+                if previous.score is not None or fragment.score is not None
+                else None,
+            )
+        else:
+            merged.append(fragment)
+    return merged
 
 
 def headers_above(label: OcrLine, lines: Iterable[OcrLine], bounds: Box | None = None) -> list[OcrLine]:

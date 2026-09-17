@@ -28,10 +28,23 @@ def is_direct_label(row: dict) -> bool:
 
 
 def select_current_value(row: dict, fiscal_end: date | None) -> dict | None:
-    """Choose a row value only when its date header exactly matches the fiscal end."""
-    if fiscal_end is None or not is_direct_label(row):
+    """Choose a current-period value from an exact date or an explicit ``Exercice N`` header."""
+    if not is_direct_label(row):
         return None
-    matches = [value for value in row["values"] if header_date(value.get("column_header")) == fiscal_end]
+    matches = [
+        value for value in row["values"]
+        if fiscal_end is not None and header_date(value.get("column_header")) == fiscal_end
+    ]
+    selection_reason = "direct label and exact fiscal-period header match"
+    confidence = 0.95
+    if not matches:
+        matches = [
+            value for value in row["values"]
+            if "exercice n" in normalized_text(value.get("column_header") or "")
+            and "n-1" not in normalized_text(value.get("column_header") or "")
+        ]
+        selection_reason = "direct label and explicit Exercice N header"
+        confidence = 0.92
     if len(matches) != 1:
         return None
     value = matches[0]
@@ -42,7 +55,7 @@ def select_current_value(row: dict, fiscal_end: date | None) -> dict | None:
         "bbox_px": value["bbox_px"],
         "label": row["label_text"],
         "column_header": value["column_header"],
-        "fiscal_year_end": fiscal_end.isoformat(),
-        "confidence": 0.95,
-        "selection_reason": "direct label and exact fiscal-period header match",
+        "fiscal_year_end": None if fiscal_end is None else fiscal_end.isoformat(),
+        "confidence": confidence,
+        "selection_reason": selection_reason,
     }
