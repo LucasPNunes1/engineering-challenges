@@ -20,11 +20,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-root", type=Path, default=Path("data"))
     parser.add_argument("--output", type=Path, default=Path("artifacts/labelled_rows.json"))
+    parser.add_argument("--document-id", help="Rebuild one document and preserve other rows in --output.")
+    parser.add_argument("--native-pdf-fallback", action="store_true", help="Try embedded PDF text on statement-like pages with no row candidate.")
     args = parser.parse_args()
 
+    existing = {}
+    if args.document_id and args.output.exists():
+        existing = {item["document_id"]: item for item in json.loads(args.output.read_text())["documents"]}
     documents = []
     for siren, pdf_name in TARGETS:
         doc_id = document_id(pdf_name)
+        if args.document_id and doc_id != args.document_id:
+            if doc_id in existing:
+                documents.append(existing[doc_id])
+            continue
         pdf_path = args.data_root / siren / "bilans" / "pdf" / pdf_name
         rows = []
         for path in sorted((args.data_root / siren / "bilans" / "ocr" / doc_id).glob("page_*.json")):
@@ -36,7 +45,7 @@ def main() -> None:
             # Try embedded PDF text only where the normal pass found nothing on a page
             # that still looks like a statement, or where OCR is empty. This keeps the
             # fallback targeted rather than reprocessing every page in the corpus.
-            should_try_native = not page_rows and (not lines or bool(page_anchor_matches(lines)))
+            should_try_native = args.native_pdf_fallback and not page_rows and (not lines or bool(page_anchor_matches(lines)))
             if should_try_native:
                 native_lines = read_native_pdf_page(pdf_path, page)
                 if native_lines:

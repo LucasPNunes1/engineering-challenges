@@ -18,6 +18,7 @@ def main() -> None:
     parser.add_argument("--data-root", type=Path, default=Path("data"))
     parser.add_argument("--input", type=Path, default=Path("artifacts/direct_selections.json"))
     parser.add_argument("--derived", type=Path, default=Path("artifacts/derived_selections.json"))
+    parser.add_argument("--manual", type=Path, default=Path("artifacts/manual_selections.json"))
     parser.add_argument("--output", type=Path, default=Path("artifacts/normalized_selections.json"))
     args = parser.parse_args()
 
@@ -34,6 +35,13 @@ def main() -> None:
         }
         for document in payload["documents"]:
             document["selections"].extend(derived_by_id.get(document["document_id"], []))
+    if args.manual.exists():
+        manual_by_id = {
+            document["document_id"]: document["selections"]
+            for document in json.loads(args.manual.read_text())["documents"]
+        }
+        for document in payload["documents"]:
+            document["selections"].extend(manual_by_id.get(document["document_id"], []))
     for document in payload["documents"]:
         pdf = args.data_root / document["siren"] / "bilans" / "pdf" / document["pdf"]
         source_pdf = pymupdf.open(pdf)
