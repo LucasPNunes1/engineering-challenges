@@ -9,6 +9,8 @@ precision-filtered output contains **74 grounded document-field pairs**. It omit
 where the supplied OCR does not provide enough evidence, rather than emitting zero or a
 guess; coverage is therefore not presented as an accuracy claim.
 
+[Watch the 3-minute submission walkthrough](https://drive.google.com/file/d/1ZzpTpEIItNqiFwVD02w-YlHNIffC7zSR/view?usp=sharing).
+
 Detailed engineering rationale is in [notes/engineering-decisions.md](notes/engineering-decisions.md).
 The committed visual evidence packet is [artifacts/review/index.html](artifacts/review/index.html);
 open it locally in a browser to inspect every retained source page and its selected values.
