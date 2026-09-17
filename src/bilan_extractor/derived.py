@@ -27,10 +27,15 @@ def union_bbox(boxes: list[list[float]]) -> list[float]:
 
 
 def derive_fields(selections: list[dict]) -> list[dict]:
-    """Derive only when each required component is selected on the same PDF page."""
+    """Derive only from high-confidence components on the same PDF page.
+
+    A single-cell fallback is useful as a review candidate, but duplicated/bleeding OCR
+    labels must never be summed automatically into a financial formula.
+    """
     by_page: dict[int, list[dict]] = defaultdict(list)
     for selection in selections:
-        by_page[selection["page"]].append(selection)
+        if selection["confidence"] >= 0.9:
+            by_page[selection["page"]].append(selection)
 
     output = []
     for page, page_items in by_page.items():

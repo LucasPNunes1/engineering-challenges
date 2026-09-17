@@ -53,6 +53,59 @@
           ]
         }
       ]
+    },
+    {
+      "siren": "504304205",
+      "pdf": "bilan_2018-10-24_63e13943526e1f30cd100db6.pdf",
+      "document_id": "63e13943526e1f30cd100db6",
+      "fiscal_year_end": "2017-12-31",
+      "selections": [
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 127282.0,
+          "page": 6,
+          "bbox_px": [2393.0, 1704.0, 2613.0, 1839.0],
+          "bbox_dpi": 400,
+          "label": "Achats marchandises + matières + variations stocks + production stockée",
+          "column_header": "Exercice N, Total column",
+          "fiscal_year_end": "2017-12-31",
+          "confidence": 0.76,
+          "selection_reason": "French Tesseract TSV, visually checked: 125964 + 1318; blank purchases-of-goods and production-stockée cells are 0",
+          "components": [
+            {"label": "Achats de matières premières", "value": 125964.0},
+            {"label": "Variation stock matières", "value": 1318.0},
+            {"label": "Achats de marchandises", "value": 0.0},
+            {"label": "Production stockée", "value": 0.0}
+          ]
+        }
+      ]
+    },
+    {
+      "siren": "401009741",
+      "pdf": "bilan_2022-11-30_63e881158be6eb9f9d1ff975.pdf",
+      "document_id": "63e881158be6eb9f9d1ff975",
+      "fiscal_year_end": "2022-04-30",
+      "selections": [
+        {
+          "field_key": "PL_COGS_FRGAAP",
+          "value": 612560.0,
+          "page": 4,
+          "bbox_px": [2170.0, 828.0, 2373.0, 1505.0],
+          "bbox_dpi": 300,
+          "label": "Achats marchandises + matières + variations stocks + production stockée",
+          "column_header": "Exercice N, Total column",
+          "fiscal_year_end": "2022-04-30",
+          "confidence": 0.78,
+          "selection_reason": "Provided OCR and visual review: 194094 - 227 + 321507 + 81224 + 15962",
+          "components": [
+            {"label": "Achats de marchandises", "value": 194094.0},
+            {"label": "Variation stock marchandises", "value": -227.0},
+            {"label": "Achats de matières premières", "value": 321507.0},
+            {"label": "Variation stock matières", "value": 81224.0},
+            {"label": "Production stockée", "value": 15962.0}
+          ]
+        }
+      ]
     }
   ]
 }

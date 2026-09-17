@@ -142,7 +142,7 @@ Takeovers SAS · 144 avenue Charles de Gaulle, 92200 Neuilly-sur-Seine
 ## Bilan implementation
 
 This submission implements the Bilan challenge for all 15 specified filings. The current
-`results.json` contains 87 grounded document-field pairs. It deliberately omits fields
+`results.json` contains 90 grounded document-field pairs. It deliberately omits fields
 where the supplied OCR does not provide sufficient label, current-period, or component
 evidence; it does not substitute zero or a guessed value.
 
@@ -184,7 +184,7 @@ is **€0.00/page**.
 
 The trade-off is coverage for provenance. A cropped visual-review queue is used only
 when the target label and finite OCR candidates already exist. The final unresolved
-queue has 93 pairs: 57 lack a usable label/value in supplied OCR, 27 lack a required
+queue has 90 pairs: 57 lack a usable label/value in supplied OCR, 24 lack a required
 formula component, and 9 remain localized column/formula questions. With another week,
 I would benchmark a French-language second OCR or a vision fallback only on these
 localized pages, then require it to return an existing OCR bbox or undergo a separate

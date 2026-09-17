@@ -13,6 +13,7 @@ DIRECT_LABEL_RULES: dict[str, tuple[str, ...]] = {
     "PL_REVENUE_FRGAAP": (
         "chiffre d affaires net", "chiffres d affaires nets",
         "chiffre d'affaires net", "chiffres d'affaires nets",
+        "chiffre d’affaires net", "chiffres d’affaires nets",
     ),
     "PL_EXT_SERVICES_COSTS_FRGAAP": ("autres achats et charges externes",),
     "PL_DEPRECIATION_AMORTIZATION_FRGAAP": (
