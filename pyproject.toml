@@ -3,7 +3,7 @@ name = "takeovers-bilan"
 version = "0.1.0"
 description = "Grounded extraction of French annual-account fields"
 requires-python = ">=3.11"
-dependencies = ["PyMuPDF>=1.28,<2"]
+dependencies = ["PyMuPDF>=1.28,<2", "Pillow>=10,<12"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

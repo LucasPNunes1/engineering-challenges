@@ -136,3 +136,61 @@ Questions: **contact@takeovers.ai**.
 ---
 
 Takeovers SAS · 144 avenue Charles de Gaulle, 92200 Neuilly-sur-Seine
+
+---
+
+## Bilan implementation
+
+This submission implements the Bilan challenge for all 15 specified filings. The current
+`results.json` contains 87 grounded document-field pairs. It deliberately omits fields
+where the supplied OCR does not provide sufficient label, current-period, or component
+evidence; it does not substitute zero or a guessed value.
+
+### Run
+
+Requires Python 3.11+.
+
+```bash
+python -m venv .venv
+.venv/bin/pip install -e . pytest jsonschema
+
+PYTHONPATH=src .venv/bin/python scripts/inspect_bilan_rows.py
+PYTHONPATH=src .venv/bin/python scripts/select_direct_bilan_values.py
+PYTHONPATH=src .venv/bin/python scripts/derive_bilan_fields.py
+.venv/bin/python scripts/build_bilan_review_queue.py
+PYTHONPATH=src .venv/bin/python scripts/apply_manual_reviews.py
+.venv/bin/python scripts/normalize_bilan_bboxes.py
+PYTHONPATH=src .venv/bin/python scripts/build_bilan_results.py --seconds-per-page 0.122
+
+PYTHONPATH=src .venv/bin/python -m pytest -q
+```
+
+`review/manual_review_answers.json` is a bounded, versioned review layer. Each answer
+can select only an `evidence_id` emitted by the local queue, so it cannot introduce a
+new value or a fabricated bbox. Optional review images can be regenerated with
+`.venv/bin/python scripts/generate_bilan_review.py`.
+
+### Trade-off and measurement
+
+The pipeline uses the supplied OCR, table geometry, tolerant French-label matching,
+fiscal-period selection, numeric-fragment reconstruction, and grounded formulas. It
+processes all 415 supplied OCR pages in 50.768 seconds serially: **0.122 seconds/page**.
+It makes no paid model request, so incremental extraction cost is **€0.00/page**.
+
+The trade-off is coverage for provenance. A cropped visual-review queue is used only
+when the target label and finite OCR candidates already exist. The final unresolved
+queue has 93 pairs: 57 lack a usable label/value in supplied OCR, 27 lack a required
+formula component, and 9 remain localized column/formula questions. With another week,
+I would benchmark a French-language second OCR or a vision fallback only on these
+localized pages, then require it to return an existing OCR bbox or undergo a separate
+bbox-validation step.
+
+### How I used AI
+
+I used an AI coding assistant to accelerate code exploration, formulate extraction rules,
+and inspect a bounded set of rendered statement pages. I independently checked the
+resulting values against the page images and constrained every reviewed choice to OCR
+evidence. The assistant initially exposed an incorrect assumption in some manual review
+candidate indices; the pipeline now validates that each selected ID belongs to the
+current queue, and those indices were corrected before inclusion. No AI/VLM API response
+contributed to `results.json`: the attempted API integration had no available API credit.
